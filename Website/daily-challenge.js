@@ -1,6 +1,6 @@
 // Configuration
 // Configuration
-const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || window.location.hostname === '')
     ? 'http://localhost:3010'
     : 'https://YOUR_PRODUCTION_BACKEND_URL_HERE'; // TODO: REPLACE WITH YOUR ACTUAL BACKEND URL FOR PRODUCTION
 
@@ -277,7 +277,7 @@ submitQuizBtn.addEventListener('click', async () => {
             showLeaderboard(); // Fallback
         } else {
             // Success
-            revealAnswers(result.correctAnswers);
+            revealAnswers(result.correctAnswers, result.explanations);
             finalScoreSpan.textContent = result.score;
             userScoreDisplay.classList.remove('d-none');
 
@@ -311,9 +311,10 @@ submitQuizBtn.addEventListener('click', async () => {
     hideLoading();
 });
 
-function revealAnswers(correctAnswers) {
+function revealAnswers(correctAnswers, explanations) {
     questions.forEach(q => {
         const correct = correctAnswers[q.id];
+        const explanation = explanations ? explanations[q.id] : null;
         const container = document.querySelector(`.options-group[data-qid="${q.id}"]`);
         const inputs = container.querySelectorAll('input');
 
@@ -334,6 +335,16 @@ function revealAnswers(correctAnswers) {
                 }
             }
         });
+
+        // Display Explanation
+        if (explanation) {
+            const expDiv = document.createElement('div');
+            expDiv.className = 'explanation-text mt-2 text-white';
+            expDiv.style.fontSize = '0.9rem';
+            expDiv.style.opacity = '0.9';
+            expDiv.innerHTML = `<strong>Explanation:</strong> ${explanation}`;
+            container.appendChild(expDiv);
+        }
     });
 }
 
