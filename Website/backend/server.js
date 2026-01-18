@@ -32,7 +32,81 @@ async function getDailyLeaderboard(dayIndex) {
     return result.rows;
 }
 
-// ... (API ENDPOINTS) ...
+// 1. GET STATUS
+app.get('/api/daily-status', async (req, res) => {
+    try {
+        const { username } = req.query;
+        if (!username) {
+            return res.status(400).json({ error: 'Username required' });
+        }
+
+        const dayIndex = logic.getDayIndex();
+
+        // Check if user played
+        const attempt = await db.query(
+            'SELECT 1 FROM daily_attempts WHERE username = $1 AND day_index = $2',
+            [username, dayIndex]
+        );
+
+        res.json({
+            dayIndex,
+            played: attempt.rowCount > 0
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// 2. GET QUESTIONS
+app.get('/api/questions', async (req, res) => {
+    try {
+        const { username } = req.query;
+        if (!username) {
+            return res.status(400).json({ error: 'Username required' });
+        }
+
+        const dayIndex = logic.getDayIndex();
+
+        // Verify not played
+        const attempt = await db.query(
+            'SELECT 1 FROM daily_attempts WHERE username = $1 AND day_index = $2',
+            [username, dayIndex]
+        );
+
+        if (attempt.rowCount > 0) {
+            return res.status(403).json({ error: 'You have already played today' });
+        }
+
+        // Get Question IDs
+        const ids = logic.getQuestionIds(dayIndex);
+
+        // Fetch from DB
+        // Postgres ANY takes an array
+        const questionsRes = await db.query(
+            `SELECT id, question_text, option_a, option_b, option_c, option_d 
+       FROM questions 
+       WHERE id = ANY($1::int[])`,
+            [ids]
+        );
+
+        // Ensure we return them in the deterministic order (logic.js order)
+        // Map IDs to the found question objects
+        const questionMap = new Map();
+        questionsRes.rows.forEach(q => questionMap.set(q.id, q));
+
+        const orderedQuestions = ids.map(id => questionMap.get(id)).filter(q => q); // filter undefined if DB missing data
+
+        res.json({
+            dayIndex,
+            questions: orderedQuestions
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 // 3. SUBMIT ANSWERS
 app.post('/api/submit', async (req, res) => {
