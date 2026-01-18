@@ -2,7 +2,7 @@
 // Configuration
 const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || window.location.hostname === '')
     ? 'http://localhost:3010'
-    : 'https://YOUR_PRODUCTION_BACKEND_URL_HERE'; // TODO: REPLACE WITH YOUR ACTUAL BACKEND URL FOR PRODUCTION
+    : 'https://protocol-backend-idxa.onrender.com'; // TODO: REPLACE WITH YOUR ACTUAL BACKEND URL FOR PRODUCTION
 
 // State
 let currentUser = null;
