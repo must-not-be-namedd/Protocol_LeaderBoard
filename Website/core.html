@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Protocol — Core Team</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Google Fonts: Antonio + Pacifico -->
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&family=Pacifico&display=swap"
+    rel="stylesheet">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="./data/Protocol(Round-Logo).png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Delicious+Handrawn&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="./index.html">
+          <img src="./data/logo.png" alt="Protocol Logo" class="nav-logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+          <ul class="navbar-nav nav-center">
+            <li class="nav-item"><a class="nav-link" href="./index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="./about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="./core.html">Core</a></li>
+            <li class="nav-item"><a class="nav-link" href="./events.html">Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="./synergy.html">Synergy Weekly</a></li>
+            <li class="nav-item"><a class="nav-link" href="./notes.html">Notes</a></li>
+            <li class="nav-item"><a class="nav-link" href="./daily-challenge.html">Daily Challenge</a></li>
+          </ul>
+
+        </div>
+
+        <div class="ms-auto">
+          <a class="btn btn-contact" href="./contact.html">Contact</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- CORE HERO SECTION -->
+    <section class="core-hero container-fluid py-5">
+      <div class="container">
+        <div class="row align-items-start">
+
+          <!-- LEFT VERTICAL LABEL -->
+          <div class="col-auto d-none d-lg-block">
+            <div class="vertical-label">
+              <div class="vertical-top condensed">Meet the</div>
+              <div class="vertical-handwritten handwritten">Team</div>
+            </div>
+          </div>
+
+          <!-- RIGHT CONTENT GRID -->
+          <div class="col">
+            <div class="core-grid-wrap">
+
+              <!-- Core -->
+              <h3 class="section-heading">The Core</h3>
+              <div id="core-grid" class="core-grid core-5col"></div>
+
+              <!-- Senior -->
+              <h3 class="section-heading mt-5">Senior Team</h3>
+              <div id="senior-grid" class="core-grid core-4col"></div>
+
+              <!-- Junior Core -->
+              <h3 class="section-heading mt-5">Junior Core</h3>
+              <div id="junior-grid" class="core-grid core-4col"></div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="site-footer py-5">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-4 mb-4">
+          <h5 class="footer-heading condensed">Quick Links</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./about.html">About Us</a></li>
+            <li><a href="./events.html">Events</a></li>
+            <li><a href="./synergy.html">Synergy Weekly</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-5 mb-4">
+          <h5 class="footer-heading condensed">Contact Us</h5>
+          <p class="footer-contact">+91 8217617133<br />protocol.cse@bmsce.ac.in</p>
+          <p class="footer-address">
+            B M S College of Engineering<br>
+            Bull Temple Road, Basavanagudi<br>
+            Bengaluru - 560019
+          </p>
+        </div>
+
+        <div class="col-md-3 d-flex align-items-center justify-content-end">
+          <div class="social-icons d-flex flex-column gap-3">
+            <a href="https://www.linkedin.com/company/protocol-bmsce/" class="social"><i class="bi bi-linkedin"></i></a>
+            <a href="https://www.instagram.com/protocol_bmsce/" class="social"><i class="bi bi-instagram"></i></a>
+            <a href="mailto:protocol.cse@bmsce.ac.in" class="social"><i class="bi bi-envelope"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="footer-divider">
+
+      <div class="d-flex justify-content-between align-items-center small">
+        <div class="brand-footer">
+          <span class="logo-text">protocol</span> | CSE Dept Club
+        </div>
+        <div>© <span id="year"></span> Protocol Club. All rights reserved.</div>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- TEAM JS -->
+  <script>
+
+    /* -------------------------------------
+       1. MEMBER ARRAYS
+    -------------------------------------- */
+
+    /* Core */
+    const coreMembers = [
+      { name: "Aaryan Prakash", role: "President", photo: "./data/team/AaryanPrakash.png" },
+      { name: "Bhavya J Makadia", role: "Vice President", photo: "./data/team/bhavya.png" },
+      { name: "Bhoomi Suresh Kota", role: "Design Head", photo: "./data/team/bhoomi.jpg" },
+      { name: "Khushi Nataraj", role: "Technical Head", photo: "./data/team/khushi.jpg" },
+      { name: "Aisha Ali Nyaz", role: "Secretary", photo: "./data/team/aisha.jpg" }
+    ];
+
+    /* Senior (12) */
+    const seniorTeam = [
+      { name: "Suhan S", role: "Marketing & Multimedia", photo: "./data/team/suhan.jpg" },
+      { name: "Punarnava Viswanath", role: "Marketing & Multimedia", photo: "./data/team/punarnava.jpg" },
+      { name: "Kavana MA", role: "Pixel", photo: "./data/team/kavana.jpg" },
+      { name: "Shailesh MS", role: "Tech", photo: "./data/team/shailesh.jpg" },
+      { name: "Bhuvan A", role: "Tech", photo: "./data/team/bhuvan.jpg" },
+      { name: "Manojkumar Eshwar", role: "Tech", photo: "./data/team/manoj.jpg" },
+      { name: "Sanath S Shetty", role: "Tech", photo: "./data/team/sanath.jpg" },
+      { name: "Sam Manu Jacob", role: "Tech & Content", photo: "./data/team/sam.jpg" },
+      { name: "Aaron B Ajay", role: "Content", photo: "./data/team/aaron.jpg" },
+      { name: "Afeefah", role: "Content", photo: "./data/team/afeefah.jpg" },
+      { name: "Revathi R", role: "Content", photo: "./data/team/revathi.jpg" },
+      { name: "Jayanth Vikram", role: "Sponsorship", photo: "./data/team/jayanth.JPG" }
+    ];
+
+    /* Junior (21) */
+    const juniorCore = [
+      { name: "Shravani Vedagiri", role: "Marketing", photo: "./data/team/shravani.png" },
+      { name: "Deeptanshu Sarangi", role: "Marketing", photo: "./data/team/deeptanshu.jpg" },
+      { name: "Nandan B", role: "Marketing", photo: "./data/team/nandan.jpg" },
+      { name: "Ayush S Shetty", role: "Marketing", photo: "./data/team/ayush.jpg" },
+      { name: "Akshara Kavi Mahesh", role: "Marketing", photo: "./data/team/akshara.jpg" },
+
+      { name: "Aadi Vaishnav", role: "Multimedia", photo: "./data/team/aadi.jpg" },
+      { name: "Aditi Ravindra Kulkarni", role: "Multimedia", photo: "./data/team/aditi.jpg" },
+
+      { name: "Goutham Sankar", role: "Pixel", photo: "./data/team/goutham.jpg" },
+      { name: "Harsha A", role: "Pixel", photo: "./data/team/harsha.jpg" },
+      { name: "Shaistha H", role: "Pixel", photo: "./data/team/shaistha.jpg" },
+      { name: "Sharvani G Bhaskar", role: "Pixel", photo: "./data/team/sharvani.jpg" },
+      { name: "Chinmaya V Rao", role: "Pixel", photo: "./data/team/chinmaya.jpg" },
+
+      { name: "Adarsh KP", role: "Tech", photo: "./data/team/adarsh.jpeg" },
+      { name: "Parv D Parekh", role: "Tech", photo: "./data/team/parv.jpg" },
+      { name: "Shreya Ravish", role: "Tech", photo: "./data/team/shreya.jpg" },
+      { name: "Varsha Kodi", role: "Tech", photo: "./data/team/varsha.jpg" },
+      /*{ name: "Prasanna Sharma", role: "Tech", photo: "https://via.placeholder.com/320x420.png?text=Junior" },*/
+
+      { name: "Abhigyan Shekhar", role: "Content", photo: "./data/team/abhigyan.JPG" },
+      { name: "Achinthya Marpalli", role: "Content", photo: "./data/team/achinthya.jpg" },
+      { name: "Mahima Koul", role: "Content", photo: "./data/team/mahima.png" },
+      { name: "Rishitha AK", role: "Content", photo: "./data/team/rishitha.jpg" }
+    ];
+
+
+    /* -------------------------------------
+       2. CARD BUILDER
+    -------------------------------------- */
+
+    function makeMemberCard({ name, role, photo }) {
+      const card = document.createElement('div');
+      card.className = 'member-card';
+
+      const img = document.createElement('img');
+      img.className = 'member-photo';
+      img.src = photo;
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'member-name condensed';
+      nameDiv.textContent = name;
+
+      const roleDiv = document.createElement('div');
+      roleDiv.className = 'member-role';
+      roleDiv.textContent = role;
+
+      card.appendChild(img);
+      card.appendChild(nameDiv);
+      card.appendChild(roleDiv);
+
+      return card;
+    }
+
+
+    /* -------------------------------------
+       3. GRID POPULATION
+    -------------------------------------- */
+    function fillGrid(gridId, list) {
+      const grid = document.getElementById(gridId);
+      grid.innerHTML = "";
+      list.forEach(m => grid.appendChild(makeMemberCard(m)));
+    }
+
+
+    /* -------------------------------------
+       4. ON LOAD
+    -------------------------------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      fillGrid("core-grid", coreMembers);
+      fillGrid("senior-grid", seniorTeam);
+      fillGrid("junior-grid", juniorCore);
+    });
+
+  </script>
+
+</body>
+
+</html>
