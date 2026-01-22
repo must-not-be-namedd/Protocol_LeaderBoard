@@ -2811,7 +2811,7 @@ nav {
 :root {
   --navbar-height-desktop: 120px;
   /* REDUCED from 96px */
-  --navbar-height-mobile: 64px;
+  --navbar-height-mobile: 0.25px;
   /* compact mobile navbar */
 }
 
