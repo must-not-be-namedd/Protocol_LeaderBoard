@@ -181,10 +181,18 @@ app.post('/api/submit', async (req, res) => {
         await Promise.all(submissionPromises);
 
         // 4. Record Score
-        await client.query(
-            'INSERT INTO daily_scores (username, score, day_index) VALUES ($1, $2, $3)',
-            [username, score, dayIndex]
-        );
+        try {
+            await client.query(
+                'INSERT INTO daily_scores (username, score, day_index) VALUES ($1, $2, $3)',
+                [username, score, dayIndex]
+            );
+        } catch (err) {
+            if (err.code === '23505') {
+                await client.query('ROLLBACK');
+                return res.status(403).json({ error: 'You have already played today' });
+            }
+            throw err;
+        }
 
         await client.query('COMMIT');
 

@@ -185,8 +185,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: rotate(-6deg) translateY(4.5rem);
-  /* Pushed down to sit on wave */
+  transform: rotate(-6deg);
   border-radius: 26px;
   padding: 14px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
@@ -204,7 +203,7 @@ body {
 }
 
 .hero-image-wrap:hover {
-  transform: rotate(-3deg) scale(1.03) translateY(4.5rem);
+  transform: rotate(-3deg) scale(1.03);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65);
 }
 
@@ -213,12 +212,11 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -2px;
-  /* Ensure it sticks to the bottom */
-  height: 15vw;
-  /* Responsive height */
-  min-height: 100px;
-  max-height: 200px;
+  bottom: 10px;
+  /* Lowered the wave */
+  pointer-events: none;
+  height: 180px;
+  /* Slightly increased height */
   z-index: 1;
 }
 
