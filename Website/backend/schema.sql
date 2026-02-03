@@ -12,16 +12,18 @@ CREATE TABLE IF NOT EXISTS questions (
 );
 
 -- 2. Daily Attempts (Enforcement Table)
--- Prevents multiple plays per username per day
+-- Prevents multiple plays per email per day
 CREATE TABLE IF NOT EXISTS daily_attempts (
+  email TEXT NOT NULL,
   username TEXT NOT NULL,
   day_index INTEGER NOT NULL,
-  PRIMARY KEY (username, day_index)
+  PRIMARY KEY (email, day_index)
 );
 
 -- 3. Daily Submissions (Individual Answers)
 CREATE TABLE IF NOT EXISTS daily_submissions (
   id SERIAL PRIMARY KEY,
+  email TEXT NOT NULL,
   username TEXT NOT NULL,
   question_id INTEGER NOT NULL,
   day_index INTEGER NOT NULL,
@@ -31,6 +33,7 @@ CREATE TABLE IF NOT EXISTS daily_submissions (
 
 -- 4. Daily Scores (Leaderboard)
 CREATE TABLE IF NOT EXISTS daily_scores (
+  email TEXT NOT NULL,
   username TEXT NOT NULL,
   score INTEGER NOT NULL,
   day_index INTEGER NOT NULL,

@@ -6,6 +6,7 @@ const BACKEND_URL = (window.location.hostname === 'localhost' || window.location
 
 // State
 let currentUser = null;
+let currentEmail = null;
 let dayIndex = null;
 let questions = [];
 let answers = []; // { question_id, selected_option }
@@ -17,8 +18,10 @@ const leaderboardSection = document.getElementById('leaderboard-section');
 const loadingSpinner = document.getElementById('loading-spinner');
 
 const usernameInput = document.getElementById('username-input');
+const emailInput = document.getElementById('email-input');
 const startBtn = document.getElementById('start-btn');
 const usernameError = document.getElementById('username-error');
+const playedMessage = document.getElementById('played-message');
 
 const questionsContainer = document.getElementById('questions-container');
 const submitQuizBtn = document.getElementById('submit-quiz-btn');
@@ -44,9 +47,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 2. IMMEDIATE UI RENDER
     const storedUser = localStorage.getItem('daily_quiz_username');
-    if (storedUser) {
-        usernameInput.value = storedUser;
+    const storedEmail = localStorage.getItem('daily_quiz_email');
+
+    if (storedUser) usernameInput.value = storedUser;
+    if (storedEmail) {
+        emailInput.value = storedEmail;
+        checkAutoLogin(storedEmail);
     }
+
     showUsernameInput();
 
     // Listen for leaderboard updates
@@ -54,6 +62,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateLeaderboardTable(leaderboard);
     });
 });
+
+async function checkAutoLogin(email) {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/daily-status?email=${encodeURIComponent(email)}`);
+        if (!res.ok) return;
+        const status = await res.json();
+
+        if (status.played) {
+            dayIndex = status.dayIndex;
+            dayDisplay.textContent = dayIndex;
+            showPlayedMessage();
+        }
+    } catch (e) {
+        console.error("Auto-login check failed", e);
+    }
+}
+
+function showPlayedMessage() {
+    usernameInput.parentElement.classList.add('d-none'); // Hide input group
+    playedMessage.classList.remove('d-none');
+    startBtn.classList.add('d-none');
+
+    // Still show leaderboard
+    showLeaderboard();
+}
 
 // --- NAVIGATION / VIEWS ---
 
@@ -102,8 +135,17 @@ async function checkStatus(username) {
 
 startBtn.addEventListener('click', async () => {
     const username = usernameInput.value.trim();
-    if (!username) {
-        usernameError.textContent = "Please enter a username";
+    const email = emailInput.value.trim();
+
+    if (!username || !email) {
+        usernameError.textContent = "Please enter both username and email";
+        usernameError.classList.remove('d-none');
+        return;
+    }
+
+    // Basic email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        usernameError.textContent = "Please enter a valid email address";
         usernameError.classList.remove('d-none');
         return;
     }
@@ -116,10 +158,11 @@ startBtn.addEventListener('click', async () => {
 
     showLoading();
     currentUser = username;
+    currentEmail = email;
 
     try {
         // 1. Fetch Status First (Essential for dayIndex and played status)
-        const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`);
+        const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?email=${encodeURIComponent(currentEmail)}`);
 
         if (!statusRes.ok) {
             let errorMsg = "Server returned " + statusRes.status;
@@ -138,11 +181,13 @@ startBtn.addEventListener('click', async () => {
         if (status.played) {
             // User already played today
             localStorage.setItem('daily_quiz_username', currentUser);
+            localStorage.setItem('daily_quiz_email', currentEmail);
             localStorage.setItem('daily_quiz_day', dayIndex);
             showLeaderboard();
+            showPlayedMessage();
         } else {
             // 2. Fetch Questions (Only if they haven't played)
-            const questionsRes = await fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
+            const questionsRes = await fetch(`${BACKEND_URL}/api/questions?email=${encodeURIComponent(currentEmail)}`);
             const qData = await questionsRes.json();
 
             if (!questionsRes.ok) {
@@ -151,6 +196,7 @@ startBtn.addEventListener('click', async () => {
 
             questions = qData.questions;
             localStorage.setItem('daily_quiz_username', currentUser);
+            localStorage.setItem('daily_quiz_email', currentEmail);
             localStorage.setItem('daily_quiz_day', dayIndex);
             renderQuestions();
             showQuiz();
@@ -242,6 +288,7 @@ submitQuizBtn.addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 username: currentUser,
+                email: currentEmail,
                 answers: answers
             })
         });

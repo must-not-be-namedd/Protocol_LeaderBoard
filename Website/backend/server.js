@@ -106,17 +106,17 @@ app.get('/api/health', async (req, res) => {
 // 1. GET STATUS
 app.get('/api/daily-status', async (req, res) => {
     try {
-        const { username } = req.query;
-        if (!username) {
-            return res.status(400).json({ error: 'Username required' });
+        const { username, email } = req.query;
+        if (!email) {
+            return res.status(400).json({ error: 'Email required' });
         }
 
         const dayIndex = logic.getDayIndex();
 
-        // Check if user played
+        // Check if email played
         const attempt = await db.query(
-            'SELECT 1 FROM daily_attempts WHERE username = $1 AND day_index = $2',
-            [username, dayIndex]
+            'SELECT 1 FROM daily_attempts WHERE email = $1 AND day_index = $2',
+            [email, dayIndex]
         );
 
         res.json({
@@ -132,17 +132,17 @@ app.get('/api/daily-status', async (req, res) => {
 // 2. GET QUESTIONS
 app.get('/api/questions', async (req, res) => {
     try {
-        const { username } = req.query;
-        if (!username) {
-            return res.status(400).json({ error: 'Username required' });
+        const { email } = req.query;
+        if (!email) {
+            return res.status(400).json({ error: 'Email required' });
         }
 
         const dayIndex = logic.getDayIndex();
 
-        // Verify not played
+        // Verify not played by email
         const attempt = await db.query(
-            'SELECT 1 FROM daily_attempts WHERE username = $1 AND day_index = $2',
-            [username, dayIndex]
+            'SELECT 1 FROM daily_attempts WHERE email = $1 AND day_index = $2',
+            [email, dayIndex]
         );
 
         if (attempt.rowCount > 0) {
@@ -165,8 +165,8 @@ app.get('/api/questions', async (req, res) => {
 
 // 3. SUBMIT ANSWERS
 app.post('/api/submit', async (req, res) => {
-    const { username, answers } = req.body;
-    if (!username || !answers || !Array.isArray(answers)) {
+    const { username, email, answers } = req.body;
+    if (!username || !email || !answers || !Array.isArray(answers)) {
         return res.status(400).json({ error: 'Invalid payload' });
     }
 
@@ -177,11 +177,11 @@ app.post('/api/submit', async (req, res) => {
 
         await client.query('BEGIN');
 
-        // 1. Attempt to lock/reserve entry for this user + day
+        // 1. Attempt to lock/reserve entry for this email + day
         try {
             await client.query(
-                'INSERT INTO daily_attempts (username, day_index) VALUES ($1, $2)',
-                [username, dayIndex]
+                'INSERT INTO daily_attempts (email, username, day_index) VALUES ($1, $2, $3)',
+                [email, username, dayIndex]
             );
         } catch (err) {
             if (err.code === '23505') { // unique_violation
@@ -217,9 +217,9 @@ app.post('/api/submit', async (req, res) => {
 
             submissionPromises.push(
                 client.query(
-                    `INSERT INTO daily_submissions (username, question_id, day_index, selected_option, is_correct)
-           VALUES ($1, $2, $3, $4, $5)`,
-                    [username, qId, dayIndex, selected, isCorrect]
+                    `INSERT INTO daily_submissions (email, username, question_id, day_index, selected_option, is_correct)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+                    [email, username, qId, dayIndex, selected, isCorrect]
                 )
             );
         }
@@ -229,8 +229,8 @@ app.post('/api/submit', async (req, res) => {
         // 4. Record Score
         try {
             await client.query(
-                'INSERT INTO daily_scores (username, score, day_index) VALUES ($1, $2, $3)',
-                [username, score, dayIndex]
+                'INSERT INTO daily_scores (email, username, score, day_index) VALUES ($1, $2, $3, $4)',
+                [email, username, score, dayIndex]
             );
         } catch (err) {
             if (err.code === '23505') {
