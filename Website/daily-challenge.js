@@ -146,11 +146,7 @@ startBtn.addEventListener('click', async () => {
         return;
     }
 
-    // Show better feedback for cold start
-    const loadingText = document.querySelector('#loading-spinner p') || document.createElement('p');
-    loadingText.className = 'text-info small mt-2';
-    loadingText.textContent = "Waking up server (first load may take ~20 seconds)...";
-    if (!loadingText.parentElement) loadingSpinner.appendChild(loadingText);
+    // Loading text removed to clean up UI
 
     showLoading();
     currentUser = username;
@@ -304,8 +300,7 @@ submitQuizBtn.addEventListener('click', async () => {
         }
 
     } catch (e) {
-        console.error(e);
-        alert("Submission failed");
+        console.error("Submission failed:", e);
         showLeaderboard();
     }
     hideLoading();
