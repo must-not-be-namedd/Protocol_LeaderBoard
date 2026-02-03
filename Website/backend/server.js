@@ -107,8 +107,11 @@ app.get('/api/health', async (req, res) => {
 app.get('/api/daily-status', async (req, res) => {
     try {
         const { username, email } = req.query;
-        if (!email) {
-            return res.status(400).json({ error: 'Email required' });
+        // Backward compatibility: fallback to username if email is missing
+        const effectiveEmail = email || username;
+
+        if (!effectiveEmail) {
+            return res.status(400).json({ error: 'Email or Username required' });
         }
 
         const dayIndex = logic.getDayIndex();
@@ -116,7 +119,7 @@ app.get('/api/daily-status', async (req, res) => {
         // Check if email played
         const attempt = await db.query(
             'SELECT 1 FROM daily_attempts WHERE email = $1 AND day_index = $2',
-            [email, dayIndex]
+            [effectiveEmail, dayIndex]
         );
 
         res.json({
@@ -132,9 +135,11 @@ app.get('/api/daily-status', async (req, res) => {
 // 2. GET QUESTIONS
 app.get('/api/questions', async (req, res) => {
     try {
-        const { email } = req.query;
-        if (!email) {
-            return res.status(400).json({ error: 'Email required' });
+        const { username, email } = req.query;
+        const effectiveEmail = email || username;
+
+        if (!effectiveEmail) {
+            return res.status(400).json({ error: 'Email or Username required' });
         }
 
         const dayIndex = logic.getDayIndex();
@@ -142,7 +147,7 @@ app.get('/api/questions', async (req, res) => {
         // Verify not played by email
         const attempt = await db.query(
             'SELECT 1 FROM daily_attempts WHERE email = $1 AND day_index = $2',
-            [email, dayIndex]
+            [effectiveEmail, dayIndex]
         );
 
         if (attempt.rowCount > 0) {
@@ -166,8 +171,10 @@ app.get('/api/questions', async (req, res) => {
 // 3. SUBMIT ANSWERS
 app.post('/api/submit', async (req, res) => {
     const { username, email, answers } = req.body;
-    if (!username || !email || !answers || !Array.isArray(answers)) {
-        return res.status(400).json({ error: 'Invalid payload' });
+    const effectiveEmail = email || username;
+
+    if (!username || !effectiveEmail || !answers || !Array.isArray(answers)) {
+        return res.status(400).json({ error: 'Invalid payload: username, email (or fallback), and answers required' });
     }
 
     const client = await db.pool.connect();
@@ -181,7 +188,7 @@ app.post('/api/submit', async (req, res) => {
         try {
             await client.query(
                 'INSERT INTO daily_attempts (email, username, day_index) VALUES ($1, $2, $3)',
-                [email, username, dayIndex]
+                [effectiveEmail, username, dayIndex]
             );
         } catch (err) {
             if (err.code === '23505') { // unique_violation
@@ -219,7 +226,7 @@ app.post('/api/submit', async (req, res) => {
                 client.query(
                     `INSERT INTO daily_submissions (email, username, question_id, day_index, selected_option, is_correct)
            VALUES ($1, $2, $3, $4, $5, $6)`,
-                    [email, username, qId, dayIndex, selected, isCorrect]
+                    [effectiveEmail, username, qId, dayIndex, selected, isCorrect]
                 )
             );
         }
@@ -230,7 +237,7 @@ app.post('/api/submit', async (req, res) => {
         try {
             await client.query(
                 'INSERT INTO daily_scores (email, username, score, day_index) VALUES ($1, $2, $3, $4)',
-                [email, username, score, dayIndex]
+                [effectiveEmail, username, score, dayIndex]
             );
         } catch (err) {
             if (err.code === '23505') {
