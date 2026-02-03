@@ -212,9 +212,9 @@ app.post('/api/submit', async (req, res) => {
                 if (isCorrect) score++;
 
                 await client.query(
-                    `INSERT INTO daily_submissions (username, question_id, day_index, selected_option, is_correct)
-                     VALUES ($1, $2, $3, $4, $5)`,
-                    [username, qId, dayIndex, selected, isCorrect]
+                    `INSERT INTO daily_submissions (username, question_id, day_index, selected_option, is_correct, email)
+                     VALUES ($1, $2, $3, $4, $5, $6)`,
+                    [username, qId, dayIndex, selected, isCorrect, null]
                 );
             }
 
