@@ -118,30 +118,31 @@ startBtn.addEventListener('click', async () => {
     currentUser = username;
 
     try {
-        // PARALLEL API CALLS
-        const [statusRes, questionsRes] = await Promise.all([
-            fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`),
-            fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`)
-        ]);
-
-        if (!statusRes.ok || !questionsRes.ok) throw new Error("Server communication failed");
-
+        // 1. Fetch Status First (Essential for dayIndex and played status)
+        const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`);
+        if (!statusRes.ok) {
+            const errData = await statusRes.json().catch(() => ({}));
+            throw new Error(errData.error || "Server connection failed (Status)");
+        }
         const status = await statusRes.json();
-        const qData = await questionsRes.json();
 
         dayIndex = status.dayIndex;
         dayDisplay.textContent = dayIndex;
 
         if (status.played) {
+            // User already played today
             localStorage.setItem('daily_quiz_username', currentUser);
             localStorage.setItem('daily_quiz_day', dayIndex);
             showLeaderboard();
         } else {
-            if (qData.error) {
-                alert(qData.error);
-                showLeaderboard();
-                return;
+            // 2. Fetch Questions (Only if they haven't played)
+            const questionsRes = await fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
+            const qData = await questionsRes.json();
+
+            if (!questionsRes.ok) {
+                throw new Error(qData.error || "Failed to load questions");
             }
+
             questions = qData.questions;
             localStorage.setItem('daily_quiz_username', currentUser);
             localStorage.setItem('daily_quiz_day', dayIndex);
@@ -149,8 +150,8 @@ startBtn.addEventListener('click', async () => {
             showQuiz();
         }
     } catch (e) {
-        console.error(e);
-        usernameError.textContent = "Error connecting to server. Please try again.";
+        console.error("Quiz Start Error:", e);
+        usernameError.textContent = e.message || "Error connecting to server. Please try again.";
         usernameError.classList.remove('d-none');
         showUsernameInput();
     }
