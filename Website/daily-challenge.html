@@ -169,22 +169,14 @@
           <div class="quiz-box">
             <h1 class="quiz-title">Daily Challenge</h1>
 
+            <!-- SECTION 1: USERNAME INPUT -->
             <div id="username-section" class="text-center">
-              <p class="mb-4">Enter your details to begin today's challenge.</p>
-              <div class="d-flex flex-column align-items-center gap-3">
+              <p class="mb-4">Enter your username to begin today's challenge.</p>
+              <div class="d-flex justify-content-center gap-2">
                 <input type="text" id="username-input" class="form-control w-50" placeholder="Username" maxlength="20">
-                <input type="email" id="email-input" class="form-control w-50" placeholder="Email Address" required>
-                <button id="start-btn" class="btn btn-pill btn-light-fill px-5">Start Quiz</button>
+                <button id="start-btn" class="btn btn-pill btn-light-fill">Start Quiz</button>
               </div>
               <p id="username-error" class="text-danger mt-3 d-none"></p>
-
-              <!-- Played Message (Hidden by default) -->
-              <div id="played-message" class="mt-4 d-none">
-                <div class="alert alert-info">
-                  <i class="bi bi-info-circle me-2"></i>
-                  Quiz was played once, come back tomorrow to play again!
-                </div>
-              </div>
             </div>
 
             <!-- SECTION 2: QUIZ -->

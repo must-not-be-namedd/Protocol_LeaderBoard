@@ -106,20 +106,17 @@ app.get('/api/health', async (req, res) => {
 // 1. GET STATUS
 app.get('/api/daily-status', async (req, res) => {
     try {
-        const { username, email } = req.query;
-        // Backward compatibility: fallback to username if email is missing
-        const effectiveEmail = email || username;
-
-        if (!effectiveEmail) {
-            return res.status(400).json({ error: 'Email or Username required' });
+        const { username } = req.query;
+        if (!username) {
+            return res.status(400).json({ error: 'Username required' });
         }
 
         const dayIndex = logic.getDayIndex();
 
-        // Check if email played
+        // Check if user played
         const attempt = await db.query(
-            'SELECT 1 FROM daily_attempts WHERE email = $1 AND day_index = $2',
-            [effectiveEmail, dayIndex]
+            'SELECT 1 FROM daily_attempts WHERE username = $1 AND day_index = $2',
+            [username, dayIndex]
         );
 
         res.json({
@@ -135,19 +132,17 @@ app.get('/api/daily-status', async (req, res) => {
 // 2. GET QUESTIONS
 app.get('/api/questions', async (req, res) => {
     try {
-        const { username, email } = req.query;
-        const effectiveEmail = email || username;
-
-        if (!effectiveEmail) {
-            return res.status(400).json({ error: 'Email or Username required' });
+        const { username } = req.query;
+        if (!username) {
+            return res.status(400).json({ error: 'Username required' });
         }
 
         const dayIndex = logic.getDayIndex();
 
-        // Verify not played by email
+        // Verify not played
         const attempt = await db.query(
-            'SELECT 1 FROM daily_attempts WHERE email = $1 AND day_index = $2',
-            [effectiveEmail, dayIndex]
+            'SELECT 1 FROM daily_attempts WHERE username = $1 AND day_index = $2',
+            [username, dayIndex]
         );
 
         if (attempt.rowCount > 0) {
@@ -170,112 +165,105 @@ app.get('/api/questions', async (req, res) => {
 
 // 3. SUBMIT ANSWERS
 app.post('/api/submit', async (req, res) => {
-    const { username, email, answers } = req.body;
-    const effectiveEmail = email || username;
-
-    if (!username || !effectiveEmail || !answers || !Array.isArray(answers)) {
-        return res.status(400).json({ error: 'Invalid payload: username, email (or fallback), and answers required' });
+    const { username, answers } = req.body;
+    if (!username || !answers || !Array.isArray(answers)) {
+        return res.status(400).json({ error: 'Invalid payload' });
     }
 
-    const client = await db.pool.connect();
+    const dayIndex = logic.getDayIndex();
 
     try {
-        const dayIndex = logic.getDayIndex();
-
-        await client.query('BEGIN');
-
-        // 1. Attempt to lock/reserve entry for this email + day
-        try {
-            await client.query(
-                'INSERT INTO daily_attempts (email, username, day_index) VALUES ($1, $2, $3)',
-                [effectiveEmail, username, dayIndex]
-            );
-        } catch (err) {
-            if (err.code === '23505') { // unique_violation
-                await client.query('ROLLBACK');
-                return res.status(403).json({ error: 'You have already played today' });
-            }
-            throw err;
-        }
-
-        // 2. Use Cached Answers
+        // 1. Refresh cache OUTSIDE transaction to avoid holding connection
         await refreshQuestionCache(dayIndex);
 
-        const validIds = logic.getQuestionIds(dayIndex);
-        const validIdSet = new Set(validIds);
-
-        const correctMap = dailyQuestionCache.correctMap;
-        const explanationMap = dailyQuestionCache.explanationMap;
-
-        // 3. Grade
-        let score = 0;
-        const submissionPromises = [];
-
-        for (const ans of answers) {
-            const qId = ans.questionId || ans.question_id;
-            const selected = ans.selected || ans.selected_option;
-
-            if (!validIdSet.has(qId)) continue;
-
-            const correctOpt = correctMap.get(qId);
-            const isCorrect = (selected === correctOpt);
-
-            if (isCorrect) score++;
-
-            submissionPromises.push(
-                client.query(
-                    `INSERT INTO daily_submissions (email, username, question_id, day_index, selected_option, is_correct)
-           VALUES ($1, $2, $3, $4, $5, $6)`,
-                    [effectiveEmail, username, qId, dayIndex, selected, isCorrect]
-                )
-            );
-        }
-
-        await Promise.all(submissionPromises);
-
-        // 4. Record Score
+        const client = await db.pool.connect();
         try {
-            await client.query(
-                'INSERT INTO daily_scores (email, username, score, day_index) VALUES ($1, $2, $3, $4)',
-                [effectiveEmail, username, score, dayIndex]
-            );
-        } catch (err) {
-            if (err.code === '23505') {
-                await client.query('ROLLBACK');
-                return res.status(403).json({ error: 'You have already played today' });
+            await client.query('BEGIN');
+
+            // 2. Attempt to lock/reserve entry for this user + day
+            try {
+                await client.query(
+                    'INSERT INTO daily_attempts (username, day_index) VALUES ($1, $2)',
+                    [username, dayIndex]
+                );
+            } catch (err) {
+                if (err.code === '23505') { // unique_violation
+                    await client.query('ROLLBACK');
+                    return res.status(403).json({ error: 'You have already played today' });
+                }
+                throw err;
             }
-            throw err;
+
+            const validIds = logic.getQuestionIds(dayIndex);
+            const validIdSet = new Set(validIds);
+            const correctMap = dailyQuestionCache.correctMap;
+            const explanationMap = dailyQuestionCache.explanationMap;
+
+            // 3. Grade & Insert Submissions (SEQUENTIALLY to avoid client error)
+            let score = 0;
+            for (const ans of answers) {
+                const qId = ans.questionId || ans.question_id;
+                const selected = ans.selected || ans.selected_option;
+
+                if (!validIdSet.has(qId)) continue;
+
+                const correctOpt = correctMap.get(qId);
+                const isCorrect = (selected === correctOpt);
+                if (isCorrect) score++;
+
+                await client.query(
+                    `INSERT INTO daily_submissions (username, question_id, day_index, selected_option, is_correct)
+                     VALUES ($1, $2, $3, $4, $5)`,
+                    [username, qId, dayIndex, selected, isCorrect]
+                );
+            }
+
+            // 4. Record Score
+            try {
+                await client.query(
+                    'INSERT INTO daily_scores (username, score, day_index) VALUES ($1, $2, $3)',
+                    [username, score, dayIndex]
+                );
+            } catch (err) {
+                if (err.code === '23505') {
+                    await client.query('ROLLBACK');
+                    return res.status(403).json({ error: 'You have already played today' });
+                }
+                throw err;
+            }
+
+            await client.query('COMMIT');
+
+            // 5. Emit Real-Time Update
+            const freshLeaderboard = await getDailyLeaderboard(dayIndex);
+            io.emit('leaderboard_update', freshLeaderboard);
+
+            // 6. Return Result
+            const correctAnswers = {};
+            const explanations = {};
+            for (const [id, opt] of correctMap.entries()) {
+                correctAnswers[id] = opt;
+                explanations[id] = explanationMap.get(id);
+            }
+
+            res.json({
+                success: true,
+                score,
+                correctAnswers,
+                explanations,
+                leaderboard: freshLeaderboard
+            });
+
+        } catch (err) {
+            await client.query('ROLLBACK').catch(e => console.error('Rollback error:', e));
+            console.error('Submission transaction error:', err);
+            res.status(500).json({ error: 'Submission failed: ' + err.message });
+        } finally {
+            client.release();
         }
-
-        await client.query('COMMIT');
-
-        // 5. Emit Real-Time Update
-        const freshLeaderboard = await getDailyLeaderboard(dayIndex);
-        io.emit('leaderboard_update', freshLeaderboard);
-
-        // 6. Return Result
-        const correctAnswers = {};
-        const explanations = {};
-
-        for (const [id, opt] of correctMap.entries()) {
-            correctAnswers[id] = opt;
-            explanations[id] = explanationMap.get(id);
-        }
-
-        res.json({
-            success: true,
-            score,
-            correctAnswers,
-            explanations,
-            leaderboard: freshLeaderboard
-        });
-
     } catch (err) {
-        await client.query('ROLLBACK');
-        console.error('Submission error:', err);
-        res.status(500).json({ error: 'Submission failed' });
-    } finally {
-        client.release();
+        console.error('Submission cache/connection error:', err);
+        res.status(500).json({ error: 'Server initialization error' });
     }
 });
 
