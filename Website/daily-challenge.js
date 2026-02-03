@@ -120,10 +120,16 @@ startBtn.addEventListener('click', async () => {
     try {
         // 1. Fetch Status First (Essential for dayIndex and played status)
         const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`);
+
         if (!statusRes.ok) {
-            const errData = await statusRes.json().catch(() => ({}));
-            throw new Error(errData.error || "Server connection failed (Status)");
+            let errorMsg = "Server returned " + statusRes.status;
+            try {
+                const errData = await statusRes.json();
+                errorMsg = errData.error || errorMsg;
+            } catch (e) { /* non-json error */ }
+            throw new Error(errorMsg);
         }
+
         const status = await statusRes.json();
 
         dayIndex = status.dayIndex;

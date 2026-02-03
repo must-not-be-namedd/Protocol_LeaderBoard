@@ -19,6 +19,12 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
+// Log all requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
 // === CACHE ===
 let dailyQuestionCache = {
     dayIndex: null,
@@ -30,40 +36,46 @@ let dailyQuestionCache = {
 async function refreshQuestionCache(dayIndex) {
     if (dailyQuestionCache.dayIndex === dayIndex) return;
 
-    console.log(`Refreshing cache for day ${dayIndex}...`);
-    const ids = logic.getQuestionIds(dayIndex);
-    const questionsRes = await db.query(
-        `SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation 
-         FROM questions 
-         WHERE id = ANY($1::int[])`,
-        [ids]
-    );
+    try {
+        console.log(`Refreshing cache for day ${dayIndex}...`);
+        const ids = logic.getQuestionIds(dayIndex);
+        const questionsRes = await db.query(
+            `SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation 
+             FROM questions 
+             WHERE id = ANY($1::int[])`,
+            [ids]
+        );
 
-    const questionMap = new Map();
-    const correctMap = new Map();
-    const explanationMap = new Map();
+        const questionMap = new Map();
+        const correctMap = new Map();
+        const explanationMap = new Map();
 
-    questionsRes.rows.forEach(q => {
-        questionMap.set(q.id, {
-            id: q.id,
-            question_text: q.question_text,
-            option_a: q.option_a,
-            option_b: q.option_b,
-            option_c: q.option_c,
-            option_d: q.option_d
+        questionsRes.rows.forEach(q => {
+            questionMap.set(q.id, {
+                id: q.id,
+                question_text: q.question_text,
+                option_a: q.option_a,
+                option_b: q.option_b,
+                option_c: q.option_c,
+                option_d: q.option_d
+            });
+            correctMap.set(q.id, q.correct_option);
+            explanationMap.set(q.id, q.explanation);
         });
-        correctMap.set(q.id, q.correct_option);
-        explanationMap.set(q.id, q.explanation);
-    });
 
-    const orderedQuestions = ids.map(id => questionMap.get(id)).filter(q => q);
+        const orderedQuestions = ids.map(id => questionMap.get(id)).filter(q => q);
 
-    dailyQuestionCache = {
-        dayIndex,
-        questions: orderedQuestions,
-        correctMap,
-        explanationMap
-    };
+        dailyQuestionCache = {
+            dayIndex,
+            questions: orderedQuestions,
+            correctMap,
+            explanationMap
+        };
+
+    } catch (err) {
+        console.error('Error in refreshQuestionCache:', err);
+        throw err; // Propagate to route handler
+    }
 }
 
 // === UTILS ===
@@ -320,7 +332,7 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = 3010;
-server.listen(PORT, () => {
+const PORT = process.env.PORT || 3010;
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
