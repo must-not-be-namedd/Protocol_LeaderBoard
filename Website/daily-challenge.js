@@ -127,11 +127,7 @@ async function showLeaderboard() {
 
 // --- ACTIONS ---
 
-async function checkStatus(username) {
-    const res = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(username)}`);
-    if (!res.ok) throw new Error("Status check failed");
-    return await res.json();
-}
+// Redundant functions removed
 
 startBtn.addEventListener('click', async () => {
     const username = usernameInput.value.trim();
@@ -162,7 +158,8 @@ startBtn.addEventListener('click', async () => {
 
     try {
         // 1. Fetch Status First (Essential for dayIndex and played status)
-        const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?email=${encodeURIComponent(currentEmail)}`);
+        // Send both to avoid validation errors if backend is in transition
+        const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?email=${encodeURIComponent(currentEmail)}&username=${encodeURIComponent(currentUser)}`);
 
         if (!statusRes.ok) {
             let errorMsg = "Server returned " + statusRes.status;
@@ -187,7 +184,8 @@ startBtn.addEventListener('click', async () => {
             showPlayedMessage();
         } else {
             // 2. Fetch Questions (Only if they haven't played)
-            const questionsRes = await fetch(`${BACKEND_URL}/api/questions?email=${encodeURIComponent(currentEmail)}`);
+            // Send both to avoid validation errors if backend is in transition
+            const questionsRes = await fetch(`${BACKEND_URL}/api/questions?email=${encodeURIComponent(currentEmail)}&username=${encodeURIComponent(currentUser)}`);
             const qData = await questionsRes.json();
 
             if (!questionsRes.ok) {
@@ -210,26 +208,7 @@ startBtn.addEventListener('click', async () => {
     hideLoading();
 });
 
-async function loadQuiz() {
-    try {
-        const res = await fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
-        const data = await res.json();
-
-        if (data.error) {
-            alert(data.error);
-            showLeaderboard();
-            return;
-        }
-
-        questions = data.questions;
-        renderQuestions();
-        showQuiz();
-    } catch (e) {
-        console.error(e);
-        alert("Failed to load questions");
-        showUsernameInput();
-    }
-}
+// Redundant function removed
 
 function renderQuestions() {
     questionsContainer.innerHTML = '';
