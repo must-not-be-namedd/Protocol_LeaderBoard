@@ -19,6 +19,53 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
+// === CACHE ===
+let dailyQuestionCache = {
+    dayIndex: null,
+    questions: [],
+    correctMap: new Map(),
+    explanationMap: new Map()
+};
+
+async function refreshQuestionCache(dayIndex) {
+    if (dailyQuestionCache.dayIndex === dayIndex) return;
+
+    console.log(`Refreshing cache for day ${dayIndex}...`);
+    const ids = logic.getQuestionIds(dayIndex);
+    const questionsRes = await db.query(
+        `SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation 
+         FROM questions 
+         WHERE id = ANY($1::int[])`,
+        [ids]
+    );
+
+    const questionMap = new Map();
+    const correctMap = new Map();
+    const explanationMap = new Map();
+
+    questionsRes.rows.forEach(q => {
+        questionMap.set(q.id, {
+            id: q.id,
+            question_text: q.question_text,
+            option_a: q.option_a,
+            option_b: q.option_b,
+            option_c: q.option_c,
+            option_d: q.option_d
+        });
+        correctMap.set(q.id, q.correct_option);
+        explanationMap.set(q.id, q.explanation);
+    });
+
+    const orderedQuestions = ids.map(id => questionMap.get(id)).filter(q => q);
+
+    dailyQuestionCache = {
+        dayIndex,
+        questions: orderedQuestions,
+        correctMap,
+        explanationMap
+    };
+}
+
 // === UTILS ===
 
 async function getDailyLeaderboard(dayIndex) {
@@ -31,6 +78,18 @@ async function getDailyLeaderboard(dayIndex) {
     );
     return result.rows;
 }
+
+// 0. HEALTH CHECK (WAKE UP CALL)
+app.get('/api/health', async (req, res) => {
+    try {
+        // Minimal DB query to wake up both Render and Supabase
+        await db.query('SELECT 1');
+        res.json({ status: 'ok', warmed: true });
+    } catch (err) {
+        console.error('Health check failed:', err);
+        res.status(500).json({ status: 'error' });
+    }
+});
 
 // 1. GET STATUS
 app.get('/api/daily-status', async (req, res) => {
@@ -78,28 +137,12 @@ app.get('/api/questions', async (req, res) => {
             return res.status(403).json({ error: 'You have already played today' });
         }
 
-        // Get Question IDs
-        const ids = logic.getQuestionIds(dayIndex);
-
-        // Fetch from DB
-        // Postgres ANY takes an array
-        const questionsRes = await db.query(
-            `SELECT id, question_text, option_a, option_b, option_c, option_d 
-       FROM questions 
-       WHERE id = ANY($1::int[])`,
-            [ids]
-        );
-
-        // Ensure we return them in the deterministic order (logic.js order)
-        // Map IDs to the found question objects
-        const questionMap = new Map();
-        questionsRes.rows.forEach(q => questionMap.set(q.id, q));
-
-        const orderedQuestions = ids.map(id => questionMap.get(id)).filter(q => q); // filter undefined if DB missing data
+        // Refresh cache if needed
+        await refreshQuestionCache(dayIndex);
 
         res.json({
             dayIndex,
-            questions: orderedQuestions
+            questions: dailyQuestionCache.questions
         });
 
     } catch (err) {
@@ -136,23 +179,14 @@ app.post('/api/submit', async (req, res) => {
             throw err;
         }
 
-        // 2. Fetch Correct Answers
+        // 2. Use Cached Answers
+        await refreshQuestionCache(dayIndex);
+
         const validIds = logic.getQuestionIds(dayIndex);
         const validIdSet = new Set(validIds);
 
-        // Fetch correct options AND explanations from DB
-        const questionsRes = await client.query(
-            'SELECT id, correct_option, explanation FROM questions WHERE id = ANY($1::int[])',
-            [validIds]
-        );
-
-        const correctMap = new Map();
-        const explanationMap = new Map();
-
-        questionsRes.rows.forEach(q => {
-            correctMap.set(q.id, q.correct_option);
-            explanationMap.set(q.id, q.explanation);
-        });
+        const correctMap = dailyQuestionCache.correctMap;
+        const explanationMap = dailyQuestionCache.explanationMap;
 
         // 3. Grade
         let score = 0;

@@ -38,67 +38,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const yearSpan = document.getElementById('year');
     if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-    // Check LocalStorage
+    // 1. NON-BLOCKING BACKGROUND WARM-UP
+    console.log("Firing background warm-up...");
+    fetch(`${BACKEND_URL}/api/health`).catch(err => console.error("Warm-up failed", err));
+
+    // 2. IMMEDIATE UI RENDER
     const storedUser = localStorage.getItem('daily_quiz_username');
-
-    // Always fetch status first to get the correct DAY_INDEX from backend
-    // We can't trust local clock.
-    // However, we need a username to check status.
-    // If we have storedUser, we check that user.
-    // If not, we might just poll status without username? 
-    // The backend API /api/daily-status REQUIRES username.
-    // So if no storedUser, we show Username Input.
-
     if (storedUser) {
-        currentUser = storedUser;
-        showLoading();
-        try {
-            const status = await checkStatus(currentUser);
-            dayIndex = status.dayIndex;
-            dayDisplay.textContent = dayIndex;
-
-            if (status.played) {
-                // User played this day
-                showLeaderboard();
-            } else {
-                // User has not played this day, but we remembered them.
-                // NOTE: The previous day's username might be stored.
-                // We must check if the stored username matches today's activity?
-                // Actually, if they haven't played TODAY, we should probably confirm if they want to use this username?
-                // But simplified requirement: "Username is reused automatically".
-                // We should check if the stored day matches? NO, logic:
-                // "When day_index changes: Stored username is cleared"
-                // How do we know if day_index changed? We have to check backend.
-
-                // Let's implement the logic:
-                // Store { username: 'foo', day: 5 } in localStorage.
-                // Start: fetch status. Returns day 6.
-                // 6 != 5. Clear LS. Prompt user.
-
-                const storedDay = localStorage.getItem('daily_quiz_day');
-
-                if (storedDay && parseInt(storedDay) === dayIndex) {
-                    // Same day, user returning but hasn't played/finished?
-                    // OR user refreshed in middle of quiz?
-                    // If they haven't submitted, we should let them play.
-                    // Start Quiz automatically.
-                    await loadQuiz();
-                } else {
-                    // New day or mismatch
-                    localStorage.removeItem('daily_quiz_username');
-                    localStorage.removeItem('daily_quiz_day');
-                    currentUser = null;
-                    showUsernameInput();
-                }
-            }
-        } catch (e) {
-            console.error(e);
-            showUsernameInput();
-        }
-        hideLoading();
-    } else {
-        showUsernameInput();
+        usernameInput.value = storedUser;
     }
+    showUsernameInput();
 
     // Listen for leaderboard updates
     socket.on('leaderboard_update', (leaderboard) => {
@@ -159,29 +108,49 @@ startBtn.addEventListener('click', async () => {
         return;
     }
 
+    // Show better feedback for cold start
+    const loadingText = document.querySelector('#loading-spinner p') || document.createElement('p');
+    loadingText.className = 'text-info small mt-2';
+    loadingText.textContent = "Waking up server (first load may take ~20 seconds)...";
+    if (!loadingText.parentElement) loadingSpinner.appendChild(loadingText);
+
     showLoading();
     currentUser = username;
 
     try {
-        const status = await checkStatus(currentUser);
+        // PARALLEL API CALLS
+        const [statusRes, questionsRes] = await Promise.all([
+            fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`),
+            fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`)
+        ]);
+
+        if (!statusRes.ok || !questionsRes.ok) throw new Error("Server communication failed");
+
+        const status = await statusRes.json();
+        const qData = await questionsRes.json();
+
         dayIndex = status.dayIndex;
         dayDisplay.textContent = dayIndex;
 
         if (status.played) {
-            // Already played
-            // Store for future refreshes today
             localStorage.setItem('daily_quiz_username', currentUser);
             localStorage.setItem('daily_quiz_day', dayIndex);
             showLeaderboard();
         } else {
-            // New game
+            if (qData.error) {
+                alert(qData.error);
+                showLeaderboard();
+                return;
+            }
+            questions = qData.questions;
             localStorage.setItem('daily_quiz_username', currentUser);
             localStorage.setItem('daily_quiz_day', dayIndex);
-            await loadQuiz();
+            renderQuestions();
+            showQuiz();
         }
     } catch (e) {
         console.error(e);
-        usernameError.textContent = "Error connecting to server";
+        usernameError.textContent = "Error connecting to server. Please try again.";
         usernameError.classList.remove('d-none');
         showUsernameInput();
     }
@@ -299,8 +268,6 @@ submitQuizBtn.addEventListener('click', async () => {
 
             updateLeaderboardTable(result.leaderboard);
 
-            // Scroll to top
-            window.scrollTo(0, 0);
         }
 
     } catch (e) {
@@ -309,6 +276,8 @@ submitQuizBtn.addEventListener('click', async () => {
         showLeaderboard();
     }
     hideLoading();
+    // Scroll to top AFTER everything is visible
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 function revealAnswers(correctAnswers, explanations) {
