@@ -214,15 +214,15 @@ app.post('/api/submit', async (req, res) => {
                 await client.query(
                     `INSERT INTO daily_submissions (username, question_id, day_index, selected_option, is_correct, email)
                      VALUES ($1, $2, $3, $4, $5, $6)`,
-                    [username, qId, dayIndex, selected, isCorrect, null]
+                    [username, qId, dayIndex, selected, isCorrect, '']
                 );
             }
 
             // 4. Record Score
             try {
                 await client.query(
-                    'INSERT INTO daily_scores (username, score, day_index) VALUES ($1, $2, $3)',
-                    [username, score, dayIndex]
+                    'INSERT INTO daily_scores (username, score, day_index, email) VALUES ($1, $2, $3, $4)',
+                    [username, score, dayIndex, '']
                 );
             } catch (err) {
                 if (err.code === '23505') {
