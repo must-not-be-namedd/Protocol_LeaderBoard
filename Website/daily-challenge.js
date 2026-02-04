@@ -248,9 +248,11 @@ submitQuizBtn.addEventListener('click', async () => {
 
         const result = await res.json();
 
-        if (result.error) {
-            alert(result.error);
-            showLeaderboard(); // Fallback
+        if (res.status === 403) {
+            alert(result.error || "You have already played today!");
+            showLeaderboard();
+        } else if (!res.ok || result.error) {
+            throw new Error(result.error || "Server error: " + res.status);
         } else {
             // Success
             revealAnswers(result.correctAnswers, result.explanations);
