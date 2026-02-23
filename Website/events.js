@@ -17,7 +17,7 @@
 const upcomingEvents = [
   {
     title: "Beginner Hackathon",
-    image: "./data/events/placeholder.png",
+    image: "./data/events/hack.jpeg",
     date: "5th March, 2026",
     description: "A beginner-friendly hackathon designed to introduce students to problem solving, teamwork, and building real projects.",
     register: "https://forms.gle/fdbw8ZikoGQDPsTs6"
