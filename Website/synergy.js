@@ -11,11 +11,17 @@
 
 const articles = [
 
-  /* 👇 NEWEST ARTICLE (image 25) */
-  // { title:"Why Wikipedia Works (Mostly), and When it Doesn’t", image:"./data/27.png", description:"", url:"https://www.linkedin.com/pulse/why-wikipedia-works-mostly-when-doesnt-protocol-bmsce-dvhjc/?trackingId=1AUBZSM8SIeS69ucbhDpkg%3D%3D" },
-  { title: "How Netflix Reinvented Itself Before It Was Forced To", image: "./data/30.PNG", description: "", url: "https://www.linkedin.com/pulse/how-netflix-reinvented-itself-before-forced-protocol-bmsce-nydsc/?trackingId=hp7IRdwTRSif3METH47kvw%3D%3D" },
-  { title: "Palantir and the Software Behind Modern Warfare: A Deep Dive", image: "./data/29.png", description: "", url: "https://www.linkedin.com/pulse/palantir-software-behind-modern-warfare-deep-dive-protocol-bmsce-yeuac/?trackingId=BSwnXJoUSkG1IC%2F9k%2FZ7dA%3D%3D" },
-  { title: "Inside Spotify Wrapped: How Your Listening Becomes a Story", image: "./data/28.png", description: "", url: "https://www.linkedin.com/pulse/inside-spotify-wrapped-how-your-listening-becomes-story-xr8mc/?trackingId=mIP0NcOuR8SKZBmnc2%2BJhw%3D%3D" },
+  /* 👇 NEWEST ARTICLE */
+
+  { title: "How Do Contactless Payments Work?", image: "./data/36.png", description: "", url: "https://www.linkedin.com/pulse/how-do-contactless-payments-work-protocol-bmsce-cokpc/?trackingId=OFmJN1cTSASTIEnAKSXrTA%3D%3D" },
+  { title: "How Ad Auctions Decide What You See Online", image: "./data/35.png", description: "", url: "https://www.linkedin.com/pulse/how-ad-auctions-decide-what-you-see-online-protocol-bmsce-igq1c/?trackingId=wHlcN8h%2FQfqZvDc31pBvIg%3D%3D" },
+  { title: "What Happens When You Tap “Pay Later”", image: "./data/34.jpg.jpeg", description: "", url: "https://www.linkedin.com/pulse/what-happens-when-you-tap-pay-later-protocol-bmsce-zzbfc/?trackingId=MmrzAlSpRSKeqbouzX0tjw%3D%3D" },
+  { title: "AI and the Environment: A Responsibility Problem, Not an Existence Problem", image: "./data/33.png", description: "", url: "https://www.linkedin.com/pulse/ai-environment-responsibility-problem-existence-protocol-bmsce-vc1bc/?trackingId=n15SdTnlTvmMi6aO16sDRQ%3D%3D" },
+  { title: "BMW Didn’t Just Build Cars. They Engineered Joy.", image: "./data/32.png", description: "", url: "https://www.linkedin.com/pulse/bmw-didnt-just-build-cars-engineered-joy-protocol-bmsce-caruc/?trackingId=raQE4Vi7QZKdYyMM8nNgtw%3D%3D" },
+  { title: "The Nvidia Story: A Deep Dive", image: "./data/31.png", description: "", url: "https://www.linkedin.com/pulse/nvidia-story-deep-dive-protocol-bmsce-mkikc/?trackingId=TD%2FffKKMQnC9gPJOXnYAPw%3D%3D" },
+  { title: "How Netflix Reinvented Itself Before It Was Forced To", image: "./data/30.PNG", description: "", url: "https://www.linkedin.com/pulse/how-netflix-reinvented-itself-before-forced-protocol-bmsce-nydsc/?trackingId=cMqq7akSQIKe8twGJ6P31w%3D%3D" },
+  { title: "Palantir and the Software Behind Modern Warfare: A Deep Dive", image: "./data/29.png", description: "", url: "https://www.linkedin.com/pulse/palantir-software-behind-modern-warfare-deep-dive-protocol-bmsce-yeuac/?trackingId=ojfncvkhQGaPqzPC5auGxQ%3D%3D" },
+  { title: "Inside Spotify Wrapped: How Your Listening Becomes a Story", image: "./data/28.png", description: "", url: "https://www.linkedin.com/pulse/inside-spotify-wrapped-how-your-listening-becomes-story-xr8mc/?trackingId=fNdTaJZTTQmbaRF3btx2sQ%3D%3D" },
 
   { title: "Why Wikipedia Works (Mostly), and When it Doesn’t", image: "./data/27.png", description: "", url: "https://www.linkedin.com/pulse/why-wikipedia-works-mostly-when-doesnt-protocol-bmsce-dvhjc/?trackingId=1AUBZSM8SIeS69ucbhDpkg%3D%3D" },
   { title: "How do Self-Driving Cars Make Decisions?", image: "./data/26.png", description: "", url: "https://www.linkedin.com/pulse/how-do-self-driving-cars-make-decisions-protocol-bmsce-8a1ac/?trackingId=hpLs2DhdRAi5B6tkebMD0w%3D%3D" },
