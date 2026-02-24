@@ -3,7 +3,7 @@
 // FIXED LAUNCH DATE (CRITICAL FOR DETERMINISM)
 // Using Jan 1, 2026 as the epoch start based on metadata current year
 const LAUNCH_DATE = new Date('2025-01-01T00:00:00Z');
-const TOTAL_QUESTIONS = 210;
+const TOTAL_QUESTIONS = 240;
 const QUESTIONS_PER_DAY = 10;
 
 /**
@@ -25,21 +25,39 @@ function getDayIndex() {
 }
 
 /**
+ * Simple seeded random number generator for deterministic behavior.
+ */
+function seededRandom(seed) {
+    let x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+/**
  * Returns the 10 Question IDs for a specific day index.
- * Formula ensures continuous rotation through the pool and wraps per-question.
+ * Ensures all questions are used in a 21-day cycle, but in a shuffled order
+ * that changes every cycle.
  * @param {number} dayIndex 
  * @returns {number[]} Array of 10 question IDs
  */
 function getQuestionIds(dayIndex) {
-    const ids = [];
-    for (let i = 0; i < QUESTIONS_PER_DAY; i++) {
-        // (DayIndex - 1) * 10 gives the sequence start
-        // Adding 'i' moves through the day's set
-        // % TOTAL_QUESTIONS + 1 ensures it stays in [1, TOTAL_QUESTIONS] range
-        const qId = (((dayIndex - 1) * QUESTIONS_PER_DAY + i) % TOTAL_QUESTIONS) + 1;
-        ids.push(qId);
+    const cycleLength = Math.ceil(TOTAL_QUESTIONS / QUESTIONS_PER_DAY); // 21 days
+    const rotationCycle = Math.floor((dayIndex - 1) / cycleLength);
+    const dayInCycle = (dayIndex - 1) % cycleLength;
+
+    // Create a pool of all question IDs [1, 210]
+    const pool = Array.from({ length: TOTAL_QUESTIONS }, (_, i) => i + 1);
+
+    // Deterministically shuffle the pool based on the rotation cycle
+    // We use a simple Fisher-Yates shuffle with a seeded random
+    let seed = 12345 + rotationCycle * 6789; // Unique seed per 21-day cycle
+    for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(seededRandom(seed++) * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
     }
-    return ids;
+
+    // Pick 10 questions for the specific day in the cycle
+    const start = dayInCycle * QUESTIONS_PER_DAY;
+    return pool.slice(start, start + QUESTIONS_PER_DAY);
 }
 
 module.exports = { getDayIndex, getQuestionIds };
