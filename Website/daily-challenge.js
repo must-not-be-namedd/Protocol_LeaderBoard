@@ -111,45 +111,39 @@ startBtn.addEventListener('click', async () => {
     // Show better feedback for cold start
     const loadingText = document.querySelector('#loading-spinner p') || document.createElement('p');
     loadingText.className = 'text-info small mt-2';
-    loadingText.textContent = "Waking up server (first load may take ~20 seconds)...";
+    loadingText.textContent = "Waking up server (this may take a few seconds if it's the first visit of the day)...";
     if (!loadingText.parentElement) loadingSpinner.appendChild(loadingText);
 
     showLoading();
     currentUser = username;
 
     try {
-        // 1. Fetch Status First (Essential for dayIndex and played status)
+        // Fetch status first to see if played
         const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`);
 
         if (!statusRes.ok) {
-            let errorMsg = "Server returned " + statusRes.status;
-            try {
-                const errData = await statusRes.json();
-                errorMsg = errData.error || errorMsg;
-            } catch (e) { /* non-json error */ }
-            throw new Error(errorMsg);
+            const errData = await statusRes.json().catch(() => ({}));
+            throw new Error(errData.error || `Server error: ${statusRes.status}`);
         }
 
         const status = await statusRes.json();
-
         dayIndex = status.dayIndex;
         dayDisplay.textContent = dayIndex;
 
         if (status.played) {
-            // User already played today
             localStorage.setItem('daily_quiz_username', currentUser);
             localStorage.setItem('daily_quiz_day', dayIndex);
             showLeaderboard();
         } else {
-            // 2. Fetch Questions (Only if they haven't played)
+            // Fetch questions
             const questionsRes = await fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
-            const qData = await questionsRes.json();
-
             if (!questionsRes.ok) {
-                throw new Error(qData.error || "Failed to load questions");
+                const errData = await questionsRes.json().catch(() => ({}));
+                throw new Error(errData.error || "Failed to load questions");
             }
-
+            const qData = await questionsRes.json();
             questions = qData.questions;
+
             localStorage.setItem('daily_quiz_username', currentUser);
             localStorage.setItem('daily_quiz_day', dayIndex);
             renderQuestions();
@@ -161,7 +155,6 @@ startBtn.addEventListener('click', async () => {
         usernameError.classList.remove('d-none');
         showUsernameInput();
     }
-    hideLoading();
 });
 
 async function loadQuiz() {

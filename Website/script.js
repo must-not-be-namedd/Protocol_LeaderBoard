@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set current year in footer
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  // Global Warm-up (Non-blocking)
+  const BACKEND_URL = 'https://protocol-backend-idxa.onrender.com';
+  fetch(`${BACKEND_URL}/api/health`).catch(() => { /* silent fail */ });
+
   // Countdown
   const countdownEl = document.getElementById('countdown');
   const eventData = countdownEl.getAttribute('data-event');
