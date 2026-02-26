@@ -95,12 +95,27 @@ async function getDailyLeaderboard(dayIndex) {
 // 0. HEALTH CHECK (WAKE UP CALL)
 app.get('/api/health', async (req, res) => {
     try {
-        // Minimal DB query to wake up both Render and Supabase
         await db.query('SELECT 1');
         res.json({ status: 'ok', warmed: true });
     } catch (err) {
         console.error('Health check failed:', err);
         res.status(500).json({ status: 'error' });
+    }
+});
+
+// DEBUG ENDPOINT
+app.get('/api/debug', async (req, res) => {
+    try {
+        const dayIndex = logic.getDayIndex();
+        const ids = logic.getQuestionIds(dayIndex);
+        const cache = {
+            dayIndex: dailyQuestionCache.dayIndex,
+            questionCount: dailyQuestionCache.questions.length,
+            idsInCache: dailyQuestionCache.questions.map(q => q.id)
+        };
+        res.json({ dayIndex, ids, cache });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

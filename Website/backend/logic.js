@@ -3,7 +3,7 @@
 // FIXED LAUNCH DATE (CRITICAL FOR DETERMINISM)
 // Using Jan 1, 2026 as the epoch start based on metadata current year
 const LAUNCH_DATE = new Date('2025-01-01T00:00:00Z');
-const TOTAL_QUESTIONS = 180;
+const TOTAL_QUESTIONS = 181;
 const QUESTIONS_PER_DAY = 10;
 
 /**
@@ -34,24 +34,22 @@ function seededRandom(seed) {
 
 /**
  * Returns the 10 Question IDs for a specific day index.
- * Ensures all questions are used in a 18-day cycle, but in a shuffled order
+ * Ensures all questions are used in a ~18-day cycle, but in a shuffled order
  * that changes every cycle.
  * @param {number} dayIndex 
  * @returns {number[]} Array of 10 question IDs
  */
 function getQuestionIds(dayIndex) {
-    const cycleLength = Math.ceil(TOTAL_QUESTIONS / QUESTIONS_PER_DAY); // 18 days
+    const cycleLength = Math.ceil(TOTAL_QUESTIONS / QUESTIONS_PER_DAY); // 19 days
     const rotationCycle = Math.floor((dayIndex - 1) / cycleLength);
     const dayInCycle = (dayIndex - 1) % cycleLength;
 
-    // Create a pool of all question IDs [60, 239] - since there are 181, 60-239 covers 180 questions.
-    // Based on check-count.js: ID range: { min: 60, max: 240 }. Total 181.
-    // We will use 180 questions (60 to 239) for a clean 18-day rotation.
+    // Create a pool of all question IDs [60, 240] based on actual DB min/max
     const pool = Array.from({ length: TOTAL_QUESTIONS }, (_, i) => i + 60);
 
     // Deterministically shuffle the pool based on the rotation cycle
     // We use a simple Fisher-Yates shuffle with a seeded random
-    let seed = 12345 + rotationCycle * 6789; // Unique seed per 18-day cycle
+    let seed = 12345 + rotationCycle * 6789; // Unique seed per cycle
     for (let i = pool.length - 1; i > 0; i--) {
         const j = Math.floor(seededRandom(seed++) * (i + 1));
         [pool[i], pool[j]] = [pool[j], pool[i]];
