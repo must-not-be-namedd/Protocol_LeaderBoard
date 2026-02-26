@@ -51,7 +51,8 @@ async function refreshQuestionCache(dayIndex) {
         const explanationMap = new Map();
 
         questionsRes.rows.forEach(q => {
-            questionMap.set(q.id, {
+            const idStr = String(q.id);
+            questionMap.set(idStr, {
                 id: q.id,
                 question_text: q.question_text,
                 option_a: q.option_a,
@@ -59,11 +60,11 @@ async function refreshQuestionCache(dayIndex) {
                 option_c: q.option_c,
                 option_d: q.option_d
             });
-            correctMap.set(q.id, q.correct_option);
-            explanationMap.set(q.id, q.explanation);
+            correctMap.set(idStr, q.correct_option);
+            explanationMap.set(idStr, q.explanation);
         });
 
-        const orderedQuestions = ids.map(id => questionMap.get(id)).filter(q => q);
+        const orderedQuestions = ids.map(id => questionMap.get(String(id))).filter(q => q);
 
         dailyQuestionCache = {
             dayIndex,
@@ -74,7 +75,7 @@ async function refreshQuestionCache(dayIndex) {
 
     } catch (err) {
         console.error('Error in refreshQuestionCache:', err);
-        throw err; // Propagate to route handler
+        throw err;
     }
 }
 
@@ -205,9 +206,9 @@ app.post('/api/submit', async (req, res) => {
                 const qId = ans.questionId || ans.question_id;
                 const selected = ans.selected || ans.selected_option;
 
-                if (!validIdSet.has(qId)) continue;
+                if (!validIdSet.has(Number(qId))) continue;
 
-                const correctOpt = correctMap.get(qId);
+                const correctOpt = correctMap.get(String(qId));
                 const isCorrect = (selected === correctOpt);
                 if (isCorrect) score++;
 
