@@ -15,12 +15,27 @@
    ================================================================ */
 
 const upcomingEvents = [
+  
   {
-    title: "Beginner Hackathon",
-    image: "./data/events/hack.jpeg",
-    date: "5th March, 2026",
-    description: "A beginner-friendly hackathon designed to introduce students to problem solving, teamwork, and building real projects.",
-    register: "https://forms.gle/fdbw8ZikoGQDPsTs6"
+    title: "The Mega Hackathon",
+    image: "./data/events/mega.jpeg",
+    date: "13th-14th March, 2026",
+    description: "Protocol and Team Codelocked bring you our flagship hackathon, the highlight of Protocol Week 2026.If you enjoy building, brainstorming, and solving real-world problems, this is your chance to work with your team and turn your ideas into solutions.",
+    register: " https://forms.gle/sHMp48vxGjPpDTWc8"
+  },
+  {
+    title: "CodeBlitz",
+    image: "./data/events/codeblitz.jpeg",
+    date: "12th March, 2026",
+    description: "As part of Protocol Week 2026, we’re bringing back one of our fastest and most exciting challenges.Ready to test both your coding skills and your logical thinking? CodeBlitz is a fast-paced Codeathon + Aptitude Hybrid Challenge where teamwork and coordination matter just as much as skill.",
+    register: "https://forms.gle/ASQqw6rMLnxLbUQ8A"
+  },
+  {
+    title: "Brain Blitz",
+    image: "./data/events/penta.jpeg",
+    date: "13th March, 2026",
+    description: "Pentagram in collaboration with Protocol on the account of Protocol Week 2026 presents:Brain Blitz - Where minds race against time 🚀Participate in the Magic Sum Puzzle, strategize in the Bidding War, and race to the top in the Ladder Game to prove your mastery!",
+    register: "https://forms.gle/HrPFLyLM3VYV4x796"
   }
 ];
 
@@ -30,6 +45,13 @@ const upcomingEvents = [
    ================================================================ */
 
 const pastEvents = [
+  {
+    title: "Beginner Hackathon",
+    image: "./data/events/hack.jpeg",
+    date: "5th March, 2026",
+    description: "A beginner-friendly hackathon designed to introduce students to problem solving, teamwork, and building real projects.",
+   
+  },
 
   /* 1) Project Blackscreen — 14 Nov 2025 */
   {
