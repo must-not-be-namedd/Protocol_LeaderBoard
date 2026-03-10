@@ -4,31 +4,34 @@
 */
 
 document.addEventListener('DOMContentLoaded', () => {
+
   // Set current year in footer
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // Global Warm-up (Non-blocking)
   const BACKEND_URL = 'https://protocol-backend-idxa.onrender.com';
-  fetch(`${BACKEND_URL}/api/health`).catch(() => { /* silent fail */ });
+  fetch(`${BACKEND_URL}/api/health`).catch(() => {});
 
-  // Countdown
+  // ================================
+  // COUNTDOWN TIMER
+  // ================================
+
   const countdownEl = document.getElementById('countdown');
-  const eventData = countdownEl.getAttribute('data-event');
-  // If malformed or missing, provide default date (modify as needed)
-  const eventDate = new Date(eventData || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
 
-  // Target elements
+  // Set event 7 days from now (modify here if needed)
+  const eventDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+
   const daysEl = document.getElementById('days');
   const hoursEl = document.getElementById('hours');
   const minutesEl = document.getElementById('minutes');
   const secondsEl = document.getElementById('seconds');
 
   function updateCountdown() {
-    const now = new Date();
-    let diff = eventDate - now;
 
-    if (diff < 0) {
-      // event passed — show zeros (or you can put an "Event Live" state here)
+    const now = new Date().getTime();
+    const diff = eventDate.getTime() - now;
+
+    if (diff <= 0) {
       daysEl.textContent = '00';
       hoursEl.textContent = '00';
       minutesEl.textContent = '00';
@@ -47,26 +50,36 @@ document.addEventListener('DOMContentLoaded', () => {
     secondsEl.textContent = String(sec).padStart(2, '0');
   }
 
-  // initial run + interval
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // Make game card clickable (anchor already wraps entire card)
-  // Add keyboard accessibility: Enter/Space will follow link when card is focused
+
+  // ================================
+  // GAME CARD KEYBOARD ACCESSIBILITY
+  // ================================
+
   document.querySelectorAll('.game-card').forEach(card => {
-    card.setAttribute('tabindex', '0'); // make focusable
+
+    card.setAttribute('tabindex', '0');
+
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         card.click();
       }
     });
+
   });
 
-});
-document.addEventListener("DOMContentLoaded", () => {
+
+  // ================================
+  // SEMESTER TOGGLE
+  // ================================
+
   document.querySelectorAll(".semester-toggle").forEach(btn => {
+
     btn.addEventListener("click", () => {
+
       const card = btn.parentElement;
       const grid = card.querySelector(".subjects-grid");
 
@@ -74,7 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       grid.style.display =
         grid.style.display === "grid" ? "none" : "grid";
-    });
-  });
-});
 
+    });
+
+  });
+
+});
