@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const countdownEl = document.getElementById('countdown');
 
-  // Set event 7 days from now (modify here if needed)
+  // Set event 1 day from now (modify here if needed)
   const eventDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
 
   const daysEl = document.getElementById('days');
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ================================
-  // SEMESTER TOGGLE
+  // SEMESTER TOGGLE (FIXED)
   // ================================
 
   document.querySelectorAll(".semester-toggle").forEach(btn => {
@@ -85,8 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       card.classList.toggle("open");
 
-      grid.style.display =
-        grid.style.display === "grid" ? "none" : "grid";
+      if (card.classList.contains("open")) {
+        grid.style.display = "grid";
+      } else {
+        grid.style.display = "none";
+      }
 
     });
 
