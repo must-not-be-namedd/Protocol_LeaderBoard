@@ -15,7 +15,30 @@
    ================================================================ */
 
 const upcomingEvents = [
-  
+
+  {
+    title: "Among Us - IRL",
+    image: "./data/events/POSTER.jpg",
+    date: "18th-19th April, 2026",
+    description: "Trust is a luxury in this real-life simulation of Among Us, where survival hinges on your ability to read the room. Navigate the chaos as the Imposter to sabotage and eliminate, the Medic to revive teammates and shift the balance, or the Jester to master the art of suspicion and win by getting voted out. The countdown has begun—watch your back, because the truth is harder to find than you think.",
+
+  },
+  {
+    title: "TriCipher",
+    image: "./data/events/tri.jpeg",
+    date: "17th April, 2026",
+    description: "Decode. Strategize. Dominate. TriCipher is not your usual tech event — it’s a high-energy mix of speed, strategy, and smart thinking. From acting out clues in seconds to unlocking hidden advantages and cracking a final tech puzzle, every round keeps you on your toes. Team up, think fast, outplay the competition, and race your way to victory! 🚀",
+
+  },
+
+];
+
+
+/* ================================================================
+   ALL EVENTS (Newest First — ALL are past)
+   ================================================================ */
+
+const pastEvents = [
   {
     title: "The Mega Hackathon",
     image: "./data/events/mega.jpeg",
@@ -36,21 +59,13 @@ const upcomingEvents = [
     date: "13th March, 2026",
     description: "Pentagram in collaboration with Protocol on the account of Protocol Week 2026 presents:Brain Blitz - Where minds race against time 🚀Participate in the Magic Sum Puzzle, strategize in the Bidding War, and race to the top in the Ladder Game to prove your mastery!",
     register: "https://forms.gle/HrPFLyLM3VYV4x796"
-  }
-];
-
-
-/* ================================================================
-   ALL EVENTS (Newest First — ALL are past)
-   ================================================================ */
-
-const pastEvents = [
+  },
   {
     title: "Beginner Hackathon",
     image: "./data/events/hack.jpeg",
     date: "5th March, 2026",
     description: "A beginner-friendly hackathon designed to introduce students to problem solving, teamwork, and building real projects.",
-   
+
   },
 
   /* 1) Project Blackscreen — 14 Nov 2025 */
