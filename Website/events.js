@@ -25,7 +25,7 @@ const upcomingEvents = [
   },
   {
     title: "TriCipher",
-    image: "./data/events/tri.jpeg",
+    image: "./data/events/tric.jpeg",
     date: "17th April, 2026",
     description: "Decode. Strategize. Dominate. TriCipher is not your usual tech event — it’s a high-energy mix of speed, strategy, and smart thinking. From acting out clues in seconds to unlocking hidden advantages and cracking a final tech puzzle, every round keeps you on your toes. Team up, think fast, outplay the competition, and race your way to victory! 🚀",
 
