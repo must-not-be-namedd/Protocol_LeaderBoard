@@ -17,7 +17,7 @@
 const upcomingEvents = [
   {
     title: "INSYNC 2026",
-    image: "./data/insync.jpeg",
+    image: "./data/events/insync.jpeg",
     date: "Tuesday, 28th April, 2026 | 1:00 PM – 2:00 PM",
     description: "📍 Audi 1 | Are you a 1st Year CSE Core Student looking to be a part of the Official Club of Department of Computer Science & Engineering? PROTOCOL is now recruiting for our core teams. Join us for our Orientation Event — INSYNC 2026 and this is your chance to find out what we do, meet the team, and learn how you can be a part of it. Interested in tech, events, content, design, management, or building cool things with a great team? This is for you. See you there 👀",
     register: "https://forms.gle/sNGCG8uhj136iMUXA"
