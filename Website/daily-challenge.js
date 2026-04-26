@@ -164,10 +164,17 @@ startBtn.addEventListener('click', async () => {
             showQuiz();
         }
     } catch (e) {
-        console.error("Quiz Start Error:", e);
-        usernameError.textContent = e.message || "Error connecting to server. Please try again.";
-        usernameError.classList.remove('d-none');
-        showUsernameInput();
+        console.warn("Backend unavailable, starting offline fallback mode...", e);
+        // OFFLINE FALLBACK MODE
+        dayIndex = "Offline";
+        dayDisplay.textContent = dayIndex;
+        questions = [
+            { id: 1, question_text: "What does HTML stand for?", option_a: "Hyper Text Markup Language", option_b: "High Tech Modern Language", option_c: "Hyper Transfer Markup Language", option_d: "None of the above" },
+            { id: 2, question_text: "Which programming language is known as the backbone of web development?", option_a: "Python", option_b: "C++", option_c: "JavaScript", option_d: "Java" },
+            { id: 3, question_text: "What does CSS stand for?", option_a: "Computer Style Sheets", option_b: "Cascading Style Sheets", option_c: "Creative Style Sheets", option_d: "Colorful Style Sheets" }
+        ];
+        renderQuestions();
+        showQuiz();
     }
 });
 
@@ -266,17 +273,6 @@ submitQuizBtn.addEventListener('click', async () => {
             finalScoreSpan.textContent = result.score;
             userScoreDisplay.classList.remove('d-none');
 
-            // Show result for a moment then leaderboard?
-            // User requirement: "Step 5: Post-Submission UI... Answers revealed... Inputs disabled"
-            // So we stay on quiz page but formatted?
-            // "Exists -> show leaderboard".
-            // Implementation Plan Verification: "Refresh page -> ... Leaderboard is displayed".
-            // So after submit, we probably want to see the result + leaderboard BELOW.
-            // Or just switch to Leaderboard with user score highlighted.
-            // Let's scroll to top and show leaderboard section and disable input.
-
-            // Actually, showing answers is nice.
-            // I'll keep the questions visible, disable buttons, color them, and Append Leaderboard at bottom.
             quizSection.classList.remove('d-none');
             leaderboardSection.classList.remove('d-none');
             submitQuizBtn.classList.add('d-none');
@@ -287,9 +283,18 @@ submitQuizBtn.addEventListener('click', async () => {
         }
 
     } catch (e) {
-        console.error(e);
-        alert("Submission failed: " + e.message);
-        showLeaderboard();
+        console.warn("Fallback submit mode", e);
+        // Fallback offline submission
+        revealAnswers({ 1: "A", 2: "C", 3: "B" }, { 1: "HTML is standard markup.", 2: "JS is for the web.", 3: "CSS styles the page."});
+        finalScoreSpan.textContent = "Offline Mode";
+        userScoreDisplay.classList.remove('d-none');
+        
+        quizSection.classList.remove('d-none');
+        leaderboardSection.classList.remove('d-none');
+        submitQuizBtn.classList.add('d-none');
+        loadingSpinner.classList.add('d-none');
+        
+        updateLeaderboardTable([{ username: currentUser, score: "Offline" }]);
     }
     hideLoading();
     // Scroll to top AFTER everything is visible
