@@ -3,8 +3,8 @@ const BACKEND_URL = (window.location.hostname === 'localhost' || window.location
     ? 'http://localhost:3010'
     : 'https://protocol-backend-idxa.onrender.com';
 
-// Helper for seamless server wake-up (Retries if Render is sleeping/502s)
-async function fetchWithRetry(url, options = {}, retries = 6, backoff = 5000) {
+// Helper for seamless server wake-up (Retries if Render is sleeping/502s or Mongo is waking up/500s)
+async function fetchWithRetry(url, options = {}, retries = 20, backoff = 5000) {
     for (let i = 0; i < retries; i++) {
         try {
             const response = await fetch(url, options);
@@ -125,7 +125,7 @@ startBtn.addEventListener('click', async () => {
     // Show better feedback for cold start
     const loadingText = document.querySelector('#loading-spinner p') || document.createElement('p');
     loadingText.className = 'text-info small mt-2';
-    loadingText.textContent = "Waking up server (this may take a few seconds if it's the first visit of the day)...";
+    loadingText.textContent = "Waking up server (this may take up to 2 minutes if it's the first visit of the day)...";
     if (!loadingText.parentElement) loadingSpinner.appendChild(loadingText);
 
     showLoading();
