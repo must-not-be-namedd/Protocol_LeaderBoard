@@ -1,9 +1,19 @@
 // Configuration
-// Configuration
-const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || window.location.hostname === '')
-    ? 'http://localhost:3010'
-    : 'https://protocol-backend-idxa.onrender.com'; // TODO: REPLACE WITH YOUR ACTUAL BACKEND URL FOR PRODUCTION
+const BACKEND_URL = 'https://protocol-backend-idxa.onrender.com';
 
+// Helper for seamless server wake-up (Retries if Render is sleeping/502s)
+async function fetchWithRetry(url, options = {}, retries = 3, backoff = 3000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(url, options);
+            if (response.ok || response.status < 500) return response;
+            throw new Error(`Server error: ${response.status}`);
+        } catch (err) {
+            if (i === retries - 1) throw err;
+            await new Promise(res => setTimeout(res, backoff));
+        }
+    }
+}
 // State
 let currentUser = null;
 let dayIndex = null;
@@ -40,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 1. NON-BLOCKING BACKGROUND WARM-UP
     console.log("Firing background warm-up...");
-    fetch(`${BACKEND_URL}/api/health`).catch(err => console.error("Warm-up failed", err));
+    fetchWithRetry(`${BACKEND_URL}/api/health`).catch(err => console.error("Warm-up failed", err));
 
     // 2. IMMEDIATE UI RENDER
     const storedUser = localStorage.getItem('daily_quiz_username');
@@ -83,7 +93,7 @@ async function showLeaderboard() {
     hideAll();
     leaderboardSection.classList.remove('d-none');
     try {
-        const res = await fetch(`${BACKEND_URL}/api/leaderboard?dayIndex=${dayIndex || ''}`); // API uses dayIndex from logic but passing it is fine or just backend logic default
+        const res = await fetchWithRetry(`${BACKEND_URL}/api/leaderboard?dayIndex=${dayIndex || ''}`); // API uses dayIndex from logic but passing it is fine or just backend logic default
         // Actually backend logic.getDayIndex() is truth.
         const data = await res.json();
         updateLeaderboardTable(data.leaderboard);
@@ -95,7 +105,7 @@ async function showLeaderboard() {
 // --- ACTIONS ---
 
 async function checkStatus(username) {
-    const res = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(username)}`);
+    const res = await fetchWithRetry(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(username)}`);
     if (!res.ok) throw new Error("Status check failed");
     return await res.json();
 }
@@ -119,7 +129,7 @@ startBtn.addEventListener('click', async () => {
 
     try {
         // Fetch status first to see if played
-        const statusRes = await fetch(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`);
+        const statusRes = await fetchWithRetry(`${BACKEND_URL}/api/daily-status?username=${encodeURIComponent(currentUser)}`);
 
         if (!statusRes.ok) {
             const errData = await statusRes.json().catch(() => ({}));
@@ -136,7 +146,7 @@ startBtn.addEventListener('click', async () => {
             showLeaderboard();
         } else {
             // Fetch questions
-            const questionsRes = await fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
+            const questionsRes = await fetchWithRetry(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
             if (!questionsRes.ok) {
                 const errData = await questionsRes.json().catch(() => ({}));
                 throw new Error(errData.error || "Failed to load questions");
@@ -159,7 +169,7 @@ startBtn.addEventListener('click', async () => {
 
 async function loadQuiz() {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
+        const res = await fetchWithRetry(`${BACKEND_URL}/api/questions?username=${encodeURIComponent(currentUser)}`);
         const data = await res.json();
 
         if (data.error) {
@@ -230,7 +240,7 @@ submitQuizBtn.addEventListener('click', async () => {
     submitQuizBtn.disabled = true;
 
     try {
-        const res = await fetch(`${BACKEND_URL}/api/submit`, {
+        const res = await fetchWithRetry(`${BACKEND_URL}/api/submit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
