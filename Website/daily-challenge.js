@@ -1,17 +1,21 @@
 // Configuration
-const BACKEND_URL = 'https://protocol-backend-idxa.onrender.com';
+const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || window.location.hostname === '')
+    ? 'http://localhost:3010'
+    : 'https://protocol-backend-idxa.onrender.com';
 
 // Helper for seamless server wake-up (Retries if Render is sleeping/502s)
-async function fetchWithRetry(url, options = {}, retries = 3, backoff = 3000) {
+async function fetchWithRetry(url, options = {}, retries = 6, backoff = 5000) {
     for (let i = 0; i < retries; i++) {
         try {
             const response = await fetch(url, options);
-            if (response.ok || response.status < 500) return response;
-            throw new Error(`Server error: ${response.status}`);
+            // If success or a non-retryable error (like 400, 404, 403), return it immediately
+            if (response.ok || (response.status < 500 && response.status >= 400)) return response;
+            // For 500/502/503 (server waking up or db connecting), retry
+            if (i === retries - 1) return response; // Last attempt, let original logic parse the error
         } catch (err) {
             if (i === retries - 1) throw err;
-            await new Promise(res => setTimeout(res, backoff));
         }
+        await new Promise(res => setTimeout(res, backoff));
     }
 }
 // State
