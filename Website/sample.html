@@ -4,35 +4,41 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Protocol — Mega Hackathon</title>
+  <title>Protocol | CodeLocked — Mega Hackathon</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&family=Pacifico&display=swap"
-    rel="stylesheet">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Delicious+Handrawn&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Delicious+Handrawn&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/png" href="./data/Protocol(Round-Logo).png">
 
   <style>
-    /* Hackathon Specific Styles */
+    /* Hackathon Specific Styles - You can move these to styles.css later */
     .hackathon-hero {
       padding-top: 140px;
       padding-bottom: 60px;
       text-align: center;
     }
-
     .hackathon-title .handwritten {
       font-size: clamp(4rem, 8vw, 7rem);
       line-height: 1;
     }
-
     .hackathon-title .condensed {
       font-size: clamp(2rem, 5vw, 4rem);
       color: var(--text-light);
+    }
+    
+    /* Lock State Styling */
+    .locked-box {
+      border: 2px dashed rgba(216, 166, 182, 0.3);
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
     }
 
     /* Podium Winners Section */
@@ -44,7 +50,6 @@
       margin-top: 4rem;
       flex-wrap: wrap;
     }
-
     .winner-card {
       background: var(--glass);
       border-radius: 16px;
@@ -55,26 +60,22 @@
       border: 2px solid transparent;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     .winner-card:hover {
       transform: translateY(-8px) !important;
     }
-
+    
     /* Medals */
     .winner-gold {
       border-color: #f1c40f;
       box-shadow: 0 10px 30px rgba(241, 196, 15, 0.15);
-      transform: scale(1.08);
-      /* Make 1st place larger */
+      transform: scale(1.08); /* Make 1st place larger */
       z-index: 2;
       margin-bottom: 20px;
     }
-
     .winner-silver {
       border-color: #bdc3c7;
       box-shadow: 0 10px 30px rgba(189, 195, 199, 0.15);
     }
-
     .winner-bronze {
       border-color: #cd7f32;
       box-shadow: 0 10px 30px rgba(205, 127, 50, 0.15);
@@ -91,26 +92,16 @@
       justify-content: center;
       font-size: 2.5rem;
     }
-
-    .winner-gold .winner-avatar {
-      color: #f1c40f;
-    }
-
-    .winner-silver .winner-avatar {
-      color: #bdc3c7;
-    }
-
-    .winner-bronze .winner-avatar {
-      color: #cd7f32;
-    }
-
+    .winner-gold .winner-avatar { color: #f1c40f; }
+    .winner-silver .winner-avatar { color: #bdc3c7; }
+    .winner-bronze .winner-avatar { color: #cd7f32; }
+    
     .winner-rank {
       font-family: 'Delicious Handrawn', cursive;
       font-size: 2.5rem;
       margin-bottom: 0;
       line-height: 1;
     }
-
     .winner-name {
       font-family: 'Antonio', sans-serif;
       font-size: 1.5rem;
@@ -118,67 +109,14 @@
       margin-top: 10px;
     }
 
-    /* PS Card Improvements */
-    .ps-card {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: 2.5rem 1.5rem !important;
-      margin: 0 !important;
-      background: rgba(26, 26, 26, 0.6) !important;
-      border: 1px solid rgba(216, 166, 182, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .ps-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--muted-pink);
-      box-shadow: 0 10px 30px rgba(216, 166, 182, 0.1);
-    }
-
-    .ps-card .about-box-title {
-      font-family: 'Antonio', sans-serif !important;
-      font-size: 1.6rem !important;
-      font-weight: 700 !important;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      color: var(--text-light) !important;
-      background: none !important;
-      -webkit-text-fill-color: var(--text-light) !important;
-    }
-
-    .ps-card .about-box-content {
-      flex-grow: 1;
-      font-size: 1rem;
-      line-height: 1.6;
-      opacity: 0.9;
-    }
-
-    .ps-badge {
-      background: var(--muted-pink);
-      color: #171515;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-family: 'Antonio', sans-serif;
-      margin-bottom: 15px;
-      display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
     @media (max-width: 992px) {
       .podium-grid {
         flex-direction: column;
         align-items: center;
       }
-
       .winner-gold {
         transform: scale(1);
-        order: -1;
-        /* Keep 1st place on top for mobile */
+        order: -1; /* Keep 1st place on top for mobile */
         margin-bottom: 0;
       }
     }
@@ -192,8 +130,7 @@
         <a class="navbar-brand" href="./index.html">
           <img src="./data/logo.png" alt="Protocol Logo" class="nav-logo">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-          aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="mainNav">
@@ -203,8 +140,7 @@
             <li class="nav-item"><a class="nav-link" href="./core.html">Core</a></li>
             <li class="nav-item"><a class="nav-link" href="./events.html">Events</a></li>
             <li class="nav-item">
-              <a class="nav-link" href="./hackathon.html"
-                style="color: var(--muted-pink); font-weight: 700;">Hackathon</a>
+              <a class="nav-link" href="./hackathon.html" style="color: var(--muted-pink); font-weight: 700;">Hackathon</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="./synergy.html">Synergy Weekly</a></li>
             <li class="nav-item"><a class="nav-link" href="./notes.html">Notes</a></li>
@@ -227,95 +163,33 @@
             <span class="handwritten">Mega Hackathon</span>
           </h1>
           <p class="hero-desc mx-auto text-center" style="margin-top: 1rem;">
-            48 Hours. Infinite Possibilities. Join the CSE department's ultimate coding showdown. Build, innovate, and
-            claim your spot on the Wall of Fame.
+            48 Hours. Infinite Possibilities. Join the CSE department's ultimate coding showdown. Build, innovate, and claim your spot on the Wall of Fame.
           </p>
         </div>
       </div>
     </section>
 
     <section class="container py-5">
-      <h2 class="section-heading text-center mb-5">The Challenges</h2>
-
-      <div class="text-center mb-5">
-        <p class="mx-auto" style="max-width: 800px; color: var(--text-light); opacity: 0.9; font-size: 1.1rem;">
-          Registration is based on a <strong>first-come, first-served</strong> basis.
-          Each problem statement has a limit of <strong>20 slots</strong>. Click on the link below to secure your spot:
+      <h2 class="section-heading text-center mb-5">The Challenge</h2>
+      
+      <div id="ps-locked" class="about-box mx-auto locked-box" style="max-width: 800px;">
+        <i class="bi bi-lock-fill mb-3" style="font-size: 3.5rem; color: var(--muted-pink);"></i>
+        <h3 class="condensed text-center mb-2" style="font-size: 2rem;">Classified Intel</h3>
+        <p class="text-center mb-0" style="color: var(--text-light); opacity: 0.8;">
+          The problem statement will automatically decrypt and unlock on:<br>
+          <strong id="reveal-time-display" style="color: var(--muted-pink); font-size: 1.2rem;">Loading...</strong>
         </p>
-        <div class="mt-4">
-          <a href="https://protocol-hackathon.netlify.app/" class="btn btn-pill btn-light-fill" target="_blank">Register
-            at protocol-hackathon.netlify.app &rarr;</a>
-        </div>
       </div>
 
-      <div class="row g-4 justify-content-center">
-        <!-- Problem Statement 1 -->
-        <div class="col-lg-4">
-          <div class="about-box ps-card">
-            <span class="ps-badge">Public Safety / Civic Infrastructure</span>
-            <h3 class="about-box-title">1. Offline-First Disaster Communication Network</h3>
-            <div class="about-box-content mt-3">
-              <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 1.5rem;">
-                <strong>Problem:</strong> During natural disasters such as earthquakes, floods, or cyclones,
-                communication infrastructure often becomes unreliable or completely unavailable. Communities are unable
-                to share critical information like medical needs, blocked routes, or requests for assistance.
-              </p>
-              <p class="pt-3" style="font-size: 0.95rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                <strong>Challenge:</strong> Design and develop a system that enables individuals within a local area to
-                share and access essential information even when internet connectivity is unavailable.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Problem Statement 2 -->
-        <div class="col-lg-4">
-          <div class="about-box ps-card">
-            <span class="ps-badge">Accessibility Technology</span>
-            <h3 class="about-box-title">2. Indoor Navigation for Visually Impaired</h3>
-            <div class="about-box-content mt-3">
-              <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 1.5rem;">
-                <strong>Problem:</strong> Visually impaired individuals often face significant challenges navigating
-                unfamiliar indoor environments such as hospitals, universities, or malls. Unlike outdoor navigation with
-                GPS, indoor spaces often lack accessible guidance.
-              </p>
-              <p class="pt-3" style="font-size: 0.95rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                <strong>Challenge:</strong> Develop a digital solution that enables visually impaired users to navigate
-                indoor environments safely and independently, helping them locate destinations with confidence.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Problem Statement 3 -->
-        <div class="col-lg-4">
-          <div class="about-box ps-card">
-            <span class="ps-badge">Migration Policy / Digital Governance</span>
-            <h3 class="about-box-title">3. Digital Border Management System</h3>
-            <div class="about-box-content mt-3">
-              <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 1.5rem;">
-                <strong>Problem:</strong> Border management authorities must process large volumes of travelers while
-                ensuring security and efficient documentation. Fragmented systems and manual processes make it difficult
-                to manage records and coordinate agencies.
-              </p>
-              <p class="pt-3" style="font-size: 0.95rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                <strong>Challenge:</strong> Design a digital system that improves the management of border entry
-                information, documentation processes, and coordination between authorities and humanitarian
-                organizations.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </section>
 
     <section class="container py-5 mb-5">
       <h2 class="section-heading text-center">Wall of Fame</h2>
-      <p class="text-center" style="color: var(--text-light); opacity: 0.8; font-weight: 300;">The champions of this
-        edition.</p>
-
+      <p class="text-center" style="color: var(--text-light); opacity: 0.8; font-weight: 300;">The champions of this edition.</p>
+      
       <div class="podium-grid">
-
+        
         <div class="winner-card winner-silver">
           <h3 class="winner-rank" style="color: #bdc3c7;">2nd</h3>
           <div class="winner-avatar"><i class="bi bi-person-fill"></i></div>
@@ -360,8 +234,7 @@
         <div class="col-md-5 mb-4">
           <h5 class="footer-heading condensed">Contact Us</h5>
           <p class="footer-contact">+91 8217617133<br />protocol.cse@bmsce.ac.in</p>
-          <p class="footer-address">B M S College of Engineering<br>Bull Temple Road, Basavanagudi<br>Bengaluru - 560019
-          </p>
+          <p class="footer-address">B M S College of Engineering<br>Bull Temple Road, Basavanagudi<br>Bengaluru - 560019</p>
         </div>
         <div class="col-md-3 d-flex align-items-center justify-content-end">
           <div class="social-icons d-flex flex-column gap-3">
@@ -384,14 +257,44 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
+    // ==========================================
+    // CONFIGURATION: Set your reveal date & time here
+    // Format: "YYYY-MM-DDTHH:MM:SS" (e.g., "2026-03-15T18:00:00")
+    // ==========================================
+    const REVEAL_DATETIME_STRING = "2026-03-13T15:00:00";
+    
     document.addEventListener("DOMContentLoaded", () => {
-      // Footer year auto-update
-      const yearSpan = document.getElementById("year");
-      if (yearSpan) {
-        yearSpan.innerText = new Date().getFullYear();
+      const revealDate = new Date(REVEAL_DATETIME_STRING);
+      const lockedSection = document.getElementById("ps-locked");
+      const unlockedSection = document.getElementById("ps-unlocked");
+      const timeDisplay = document.getElementById("reveal-time-display");
+
+      // Format date nicely for the UI (e.g., "March 20, 2026 at 10:00 AM")
+      const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+      timeDisplay.innerText = revealDate.toLocaleString('en-US', options);
+
+      function checkRevealStatus() {
+        const now = new Date();
+        if (now >= revealDate) {
+          // Time has passed: Hide lock, show content
+          lockedSection.style.display = "none";
+          unlockedSection.style.display = "block";
+        } else {
+          // Time has not passed: Ensure lock is visible
+          lockedSection.style.display = "flex";
+          unlockedSection.style.display = "none";
+        }
       }
+
+      // Check immediately on load
+      checkRevealStatus();
+
+      // Check every 10 seconds to auto-unlock without refreshing
+      setInterval(checkRevealStatus, 10000);
+      
+      // Footer year auto-update
+      document.getElementById("year").innerText = new Date().getFullYear();
     });
   </script>
 </body>
-
 </html>

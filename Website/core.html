@@ -52,7 +52,6 @@
             <li class="nav-item"><a class="nav-link" href="./notes.html">Notes</a></li>
             <li class="nav-item"><a class="nav-link" href="./daily-challenge.html">Daily Challenge</a></li>
           </ul>
-
         </div>
 
         <div class="ms-auto">
@@ -94,6 +93,10 @@
               <h3 class="section-heading mt-5">Junior Core</h3>
               <div id="junior-grid" class="core-grid core-4col"></div>
 
+              <!-- Core 2024-25 -->
+              <h3 class="section-heading mt-5">Former Core: 2024-25</h3>
+              <div id="previous-core-grid" class="core-grid core-5col"></div>
+
             </div>
           </div>
 
@@ -115,6 +118,7 @@
             <li><a href="./index.html">Home</a></li>
             <li><a href="./about.html">About Us</a></li>
             <li><a href="./events.html">Events</a></li>
+            <li><a href="./hackathon.html">Hackathon</a></li>
             <li><a href="./synergy.html">Synergy Weekly</a></li>
             <li><a href="./notes.html">Notes</a></li>
             <li><a href="./daily-challenge.html">Daily Challenge</a></li>
@@ -157,7 +161,6 @@
 
   <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
 
 
   <!-- TEAM JS -->
@@ -213,12 +216,20 @@
       { name: "Parv D Parekh", role: "Tech", photo: "./data/team/parv.jpg" },
       { name: "Shreya Ravish", role: "Tech", photo: "./data/team/shreya.jpg" },
       { name: "Varsha Kodi", role: "Tech", photo: "./data/team/varsha.jpg" },
-      /*{ name: "Prasanna Sharma", role: "Tech", photo: "https://via.placeholder.com/320x420.png?text=Junior" },*/
 
       { name: "Abhigyan Shekhar", role: "Content", photo: "./data/team/abhigyan.JPG" },
       { name: "Achinthya Marpalli", role: "Content", photo: "./data/team/achinthya.jpg" },
       { name: "Mahima Koul", role: "Content", photo: "./data/team/mahima.png" },
       { name: "Rishitha AK", role: "Content", photo: "./data/team/rishitha.jpg" }
+    ];
+
+    /* Previous Core */
+    const previousCore = [
+      { name: "Charvi Adikar", role: "President", photo: "./data/team/charvi.png" },
+      { name: "Adithya Pillai", role: "Vice President", photo: "./data/team/adithya.png" },
+      { name: "Aditi C", role: "Secretary", photo: "./data/team/aditic.png" },
+      { name: "Avyukth Inna", role: "Technical Head", photo: "./data/team/avyukth.png" },
+      { name: "Tarun M M", role: "Chief Editor of Synergy", photo: "./data/team/tarun.png" }
     ];
 
 
@@ -267,6 +278,7 @@
       fillGrid("core-grid", coreMembers);
       fillGrid("senior-grid", seniorTeam);
       fillGrid("junior-grid", juniorCore);
+      fillGrid("previous-core-grid", previousCore);
     });
 
   </script>

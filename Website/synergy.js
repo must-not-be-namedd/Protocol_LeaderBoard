@@ -13,13 +13,17 @@ const articles = [
 
   /* 👇 NEWEST ARTICLE */
 
+  { title: "What Happens When a Website is Down?", image: "./data/40.png", description: "", url: "https://www.linkedin.com/pulse/what-happens-when-website-down-protocol-bmsce-mzkkc/?trackingId=H9l1s7U%2BTqqC9h6sFpISqg%3D%3D" },
+  { title: "The Nightly Lag: Why The Internet Slows Down at Night", image: "./data/39.png", description: "", url: "https://www.linkedin.com/pulse/nightly-lag-why-internet-slows-down-night-protocol-bmsce-jl0pe/?trackingId=ib%2Buod6GROmviAFlbPwtZg%3D%3D" },
+  { title: "How Do Language Translation Apps Think?", image: "./data/38.png", description: "", url: "https://www.linkedin.com/pulse/how-do-language-translation-apps-think-protocol-bmsce-sww8c/?trackingId=P52cTBkKT26adzi2p0x9Ew%3D%3D" },
+  { title: "How Do Traffic Lights Coordinate?", image: "./data/37.png", description: "", url: "https://www.linkedin.com/pulse/how-do-traffic-lights-coordinate-protocol-bmsce-8vxrc/?trackingId=ow9rbnCAQ9aJicRm1BJ6NA%3D%3D" },
   { title: "How Do Contactless Payments Work?", image: "./data/36.png", description: "", url: "https://www.linkedin.com/pulse/how-do-contactless-payments-work-protocol-bmsce-cokpc/?trackingId=OFmJN1cTSASTIEnAKSXrTA%3D%3D" },
   { title: "How Ad Auctions Decide What You See Online", image: "./data/35.png", description: "", url: "https://www.linkedin.com/pulse/how-ad-auctions-decide-what-you-see-online-protocol-bmsce-igq1c/?trackingId=wHlcN8h%2FQfqZvDc31pBvIg%3D%3D" },
-  { title: "What Happens When You Tap “Pay Later”", image: "./data/34.jpg.jpeg", description: "", url: "https://www.linkedin.com/pulse/what-happens-when-you-tap-pay-later-protocol-bmsce-zzbfc/?trackingId=MmrzAlSpRSKeqbouzX0tjw%3D%3D" },
+  { title: "What Happens When You Tap “Pay Later”", image: "./data/34.jpg", description: "", url: "https://www.linkedin.com/pulse/what-happens-when-you-tap-pay-later-protocol-bmsce-zzbfc/?trackingId=MmrzAlSpRSKeqbouzX0tjw%3D%3D" },
   { title: "AI and the Environment: A Responsibility Problem, Not an Existence Problem", image: "./data/33.png", description: "", url: "https://www.linkedin.com/pulse/ai-environment-responsibility-problem-existence-protocol-bmsce-vc1bc/?trackingId=n15SdTnlTvmMi6aO16sDRQ%3D%3D" },
   { title: "BMW Didn’t Just Build Cars. They Engineered Joy.", image: "./data/32.png", description: "", url: "https://www.linkedin.com/pulse/bmw-didnt-just-build-cars-engineered-joy-protocol-bmsce-caruc/?trackingId=raQE4Vi7QZKdYyMM8nNgtw%3D%3D" },
   { title: "The Nvidia Story: A Deep Dive", image: "./data/31.png", description: "", url: "https://www.linkedin.com/pulse/nvidia-story-deep-dive-protocol-bmsce-mkikc/?trackingId=TD%2FffKKMQnC9gPJOXnYAPw%3D%3D" },
-  { title: "How Netflix Reinvented Itself Before It Was Forced To", image: "./data/30.PNG", description: "", url: "https://www.linkedin.com/pulse/how-netflix-reinvented-itself-before-forced-protocol-bmsce-nydsc/?trackingId=cMqq7akSQIKe8twGJ6P31w%3D%3D" },
+  { title: "How Netflix Reinvented Itself Before It Was Forced To", image: "./data/30.png", description: "", url: "https://www.linkedin.com/pulse/how-netflix-reinvented-itself-before-forced-protocol-bmsce-nydsc/?trackingId=cMqq7akSQIKe8twGJ6P31w%3D%3D" },
   { title: "Palantir and the Software Behind Modern Warfare: A Deep Dive", image: "./data/29.png", description: "", url: "https://www.linkedin.com/pulse/palantir-software-behind-modern-warfare-deep-dive-protocol-bmsce-yeuac/?trackingId=ojfncvkhQGaPqzPC5auGxQ%3D%3D" },
   { title: "Inside Spotify Wrapped: How Your Listening Becomes a Story", image: "./data/28.png", description: "", url: "https://www.linkedin.com/pulse/inside-spotify-wrapped-how-your-listening-becomes-story-xr8mc/?trackingId=fNdTaJZTTQmbaRF3btx2sQ%3D%3D" },
 

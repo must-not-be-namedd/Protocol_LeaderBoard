@@ -15,30 +15,34 @@
    ================================================================ */
 
 const upcomingEvents = [
-
   {
-    title: "Among Us - IRL",
-    image: "./data/events/POSTER.jpg",
-    date: "18th-19th April, 2026",
-    description: "Trust is a luxury in this real-life simulation of Among Us, where survival hinges on your ability to read the room. Navigate the chaos as the Imposter to sabotage and eliminate, the Medic to revive teammates and shift the balance, or the Jester to master the art of suspicion and win by getting voted out. The countdown has begun—watch your back, because the truth is harder to find than you think.",
-
-  },
-  {
-    title: "TriCipher",
-    image: "./data/events/tric.jpeg",
-    date: "17th April, 2026",
-    description: "Decode. Strategize. Dominate. TriCipher is not your usual tech event — it’s a high-energy mix of speed, strategy, and smart thinking. From acting out clues in seconds to unlocking hidden advantages and cracking a final tech puzzle, every round keeps you on your toes. Team up, think fast, outplay the competition, and race your way to victory! 🚀",
-
-  },
-
+    title: "INSYNC 2026",
+    image: "./data/insync.png",
+    date: "Tuesday, 28th April, 2026 | 1:00 PM – 2:00 PM",
+    description: "📍 Audi 1 | Are you a 1st Year CSE Core Student looking to be a part of the Official Club of Department of Computer Science & Engineering? PROTOCOL is now recruiting for our core teams. Join us for our Orientation Event — INSYNC 2026 and this is your chance to find out what we do, meet the team, and learn how you can be a part of it. Interested in tech, events, content, design, management, or building cool things with a great team? This is for you. See you there 👀",
+    register: "https://forms.gle/sNGCG8uhj136iMUXA"
+  }
 ];
-
 
 /* ================================================================
    ALL EVENTS (Newest First — ALL are past)
    ================================================================ */
 
 const pastEvents = [
+  {
+    title: "Among Us - IRL",
+    image: "./data/events/POSTER.jpg",
+    date: "18th-19th April, 2026",
+    description: "Trust is a luxury in this real-life simulation of Among Us, where survival hinges on your ability to read the room. Navigate the chaos as the Imposter to sabotage and eliminate, the Medic to revive teammates and shift the balance, or the Jester to master the art of suspicion and win by getting voted out. The countdown has begun—watch your back, because the truth is harder to find than you think.",
+    register: "https://protocol-utsav.lovable.app/"
+  },
+  {
+    title: "TriCipher",
+    image: "./data/events/tri.jpeg",
+    date: "17th April, 2026",
+    description: "Decode. Strategize. Dominate. TriCipher is not your usual tech event — it’s a high-energy mix of speed, strategy, and smart thinking. From acting out clues in seconds to unlocking hidden advantages and cracking a final tech puzzle, every round keeps you on your toes. Team up, think fast, outplay the competition, and race your way to victory! 🚀",
+    register: "https://protocol-utsav.lovable.app/"
+  },
   {
     title: "The Mega Hackathon",
     image: "./data/events/mega.jpeg",
