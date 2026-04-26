@@ -174,7 +174,14 @@ startBtn.addEventListener('click', async () => {
         questions = [
             { id: 1, question_text: "What does HTML stand for?", option_a: "Hyper Text Markup Language", option_b: "High Tech Modern Language", option_c: "Hyper Transfer Markup Language", option_d: "None of the above" },
             { id: 2, question_text: "Which programming language is known as the backbone of web development?", option_a: "Python", option_b: "C++", option_c: "JavaScript", option_d: "Java" },
-            { id: 3, question_text: "What does CSS stand for?", option_a: "Computer Style Sheets", option_b: "Cascading Style Sheets", option_c: "Creative Style Sheets", option_d: "Colorful Style Sheets" }
+            { id: 3, question_text: "What does CSS stand for?", option_a: "Computer Style Sheets", option_b: "Cascading Style Sheets", option_c: "Creative Style Sheets", option_d: "Colorful Style Sheets" },
+            { id: 4, question_text: "Which protocol is used to secure data transfer on the web?", option_a: "HTTP", option_b: "FTP", option_c: "HTTPS", option_d: "SMTP" },
+            { id: 5, question_text: "What does API stand for?", option_a: "Application Programming Interface", option_b: "Advanced Programming Interface", option_c: "Application Process Integration", option_d: "Automated Programming Interface" },
+            { id: 6, question_text: "What is the main function of a DNS?", option_a: "Storing web pages", option_b: "Translating domain names to IP addresses", option_c: "Securing web connections", option_d: "Routing physical data" },
+            { id: 7, question_text: "Which language is used for structuring web pages?", option_a: "CSS", option_b: "Python", option_c: "HTML", option_d: "JavaScript" },
+            { id: 8, question_text: "What does SQL stand for?", option_a: "Standard Query Language", option_b: "Structured Query Language", option_c: "Simple Query Language", option_d: "System Query Language" },
+            { id: 9, question_text: "Which HTML tag is used to define an internal style sheet?", option_a: "<script>", option_b: "<css>", option_c: "<style>", option_d: "<link>" },
+            { id: 10, question_text: "Which of the following is NOT a JavaScript framework/library?", option_a: "React", option_b: "Angular", option_c: "Vue", option_d: "Django" }
         ];
         renderQuestions();
         showQuiz();
@@ -287,9 +294,28 @@ submitQuizBtn.addEventListener('click', async () => {
 
     } catch (e) {
         console.warn("Fallback submit mode", e);
-        // Fallback offline submission
-        revealAnswers({ 1: "A", 2: "C", 3: "B" }, { 1: "HTML is standard markup.", 2: "JS is for the web.", 3: "CSS styles the page."});
-        finalScoreSpan.textContent = "Offline Mode";
+        // Calculate score for offline mode based on the user's answers
+        let score = 0;
+        const fallbackAnswers = { 1: "A", 2: "C", 3: "B", 4: "C", 5: "A", 6: "B", 7: "C", 8: "B", 9: "C", 10: "D" };
+        const fallbackExplanations = {
+            1: "HTML stands for Hyper Text Markup Language.",
+            2: "JavaScript is the backbone of dynamic web development.",
+            3: "CSS stands for Cascading Style Sheets.",
+            4: "HTTPS secures data transfer over the web.",
+            5: "API stands for Application Programming Interface.",
+            6: "DNS translates human-readable domain names to IP addresses.",
+            7: "HTML provides the basic structure of sites.",
+            8: "SQL stands for Structured Query Language.",
+            9: "The <style> tag defines internal CSS.",
+            10: "Django is a Python framework, not JavaScript."
+        };
+        
+        answers.forEach(a => {
+            if (fallbackAnswers[a.questionId] === a.selected) score++;
+        });
+
+        revealAnswers(fallbackAnswers, fallbackExplanations);
+        finalScoreSpan.textContent = score;
         userScoreDisplay.classList.remove('d-none');
         
         quizSection.classList.remove('d-none');
@@ -297,7 +323,11 @@ submitQuizBtn.addEventListener('click', async () => {
         submitQuizBtn.classList.add('d-none');
         loadingSpinner.classList.add('d-none');
         
-        updateLeaderboardTable([{ username: currentUser, score: "Offline" }]);
+        updateLeaderboardTable([
+            { username: "Protocol_Bot", score: 9 },
+            { username: currentUser, score: score },
+            { username: "Guest_User", score: 5 }
+        ]);
     }
     hideLoading();
     // Scroll to top AFTER everything is visible
