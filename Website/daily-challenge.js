@@ -3,16 +3,19 @@ const BACKEND_URL = (window.location.hostname === 'localhost' || window.location
     ? 'http://localhost:3010'
     : 'https://protocol-backend-idxa.onrender.com';
 
-// Helper for seamless server wake-up (Retries if Render is sleeping/502s or Mongo is waking up/500s)
-async function fetchWithRetry(url, options = {}, retries = 20, backoff = 5000) {
+// Helper for seamless server wake-up (Retries if Render is sleeping/502s)
+async function fetchWithRetry(url, options = {}, retries = 3, backoff = 1000) {
     for (let i = 0; i < retries; i++) {
         try {
             const response = await fetch(url, options);
-            // If success or a non-retryable error (like 400, 404, 403), return it immediately
-            if (response.ok || (response.status < 500 && response.status >= 400)) return response;
-            // For 500/502/503 (server waking up or db connecting), retry
-            if (i === retries - 1) return response; // Last attempt, let original logic parse the error
+            // If it's a 500 Internal Server Error, the backend is awake but crashed. Return immediately to trigger offline fallback instantly.
+            if (response.ok || response.status === 500 || (response.status < 500 && response.status >= 400)) {
+                return response;
+            }
+            // For 502/503 (server waking up), retry
+            if (i === retries - 1) return response; 
         } catch (err) {
+            // Network errors (Failed to fetch)
             if (i === retries - 1) throw err;
         }
         await new Promise(res => setTimeout(res, backoff));
