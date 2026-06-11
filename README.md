@@ -10,7 +10,6 @@ Custom UI/UX: A fully responsive, dark-themed design accented with Protocol's si
 Synergy Weekly: A client-side CMS that dynamically loads weekly tech articles and featured posts.\
 Interactive Hub: Direct portals to custom club experiences like The Protocol Gauntlet and Project Blackscreen.\
 The Daily Challenge: A robust, custom-built daily quiz system featuring deterministic daily question rotation (everyone gets the same 10 questions each day), strict 1-play-per-day enforcement, and a real-time live leaderboard powered by WebSockets.\
-
 Tech Stack
 
 Frontend\
