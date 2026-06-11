@@ -1,53 +1,53 @@
 Protocol CSE Department Club Website
 
-Welcome to the official repository for Protocol, the premier Computer Science and Engineering department club at BMS College of Engineering.
+Welcome to the official repository for Protocol, the premier Computer Science and Engineering department club at BMS College of Engineering!
 
 This repository contains the full-stack source code for the club's website, featuring a dynamic UI, a client-side article rendering system, and a custom-built, real-time Daily Challenge quiz engine.
 
 Features
 
-Custom UI/UX: A fully responsive, dark-themed design accented with Protocol's signature pastel pinks and maroons.
-Synergy Weekly: A client-side CMS that dynamically loads weekly tech articles and featured posts.
-Interactive Hub: Direct portals to custom club experiences like The Protocol Gauntlet and Project Blackscreen.
-The Daily Challenge: A robust, custom-built daily quiz system featuring deterministic daily question rotation (everyone gets the same 10 questions each day), strict 1-play-per-day enforcement, and a real-time live leaderboard powered by WebSockets.
+Custom UI/UX: A fully responsive, dark-themed design accented with Protocol's signature pastel pinks and maroons.\
+Synergy Weekly: A client-side CMS that dynamically loads weekly tech articles and featured posts.\
+Interactive Hub: Direct portals to custom club experiences like The Protocol Gauntlet and Project Blackscreen.\
+The Daily Challenge: A robust, custom-built daily quiz system featuring deterministic daily question rotation (everyone gets the same 10 questions each day), strict 1-play-per-day enforcement, and a real-time live leaderboard powered by WebSockets.\
 
 Tech Stack
 
-Frontend
-HTML5 & CSS3: Vanilla setup with heavily customized CSS variables and grid layouts.
-JavaScript: Vanilla JS for DOM manipulation, countdown timers, and dynamic article rendering.
-Libraries: Bootstrap 5 (grid & utilities), Bootstrap Icons, Google Fonts (Antonio, Josefin Sans, Delicious Handrawn).
+Frontend\
+HTML5 & CSS3: Vanilla setup with heavily customized CSS variables and grid layouts.\
+JavaScript: Vanilla JS for DOM manipulation, countdown timers, and dynamic article rendering.\
+Libraries: Bootstrap 5 (grid & utilities), Bootstrap Icons, Google Fonts (Antonio, Josefin Sans, Delicious Handrawn).\
 
-Backend (Daily Challenge)
-Runtime: Node.js
-Framework: Express.js
-Database: PostgreSQL (Optimized for Supabase) plus pg node-postgres.
-Real-time: Socket.io (for live leaderboard updates).
+Backend (Daily Challenge)\
+Runtime: Node.js\
+Framework: Express.js\
+Database: PostgreSQL (Optimized for Supabase) plus pg node-postgres.\
+Real-time: Socket.io (for live leaderboard updates).\
 
 Project Structure
 
 Protocol_Website/
 Website/
-index.html (Landing page)
-synergy.html (Synergy Weekly article hub)
-styles.css (Global stylesheet)
-script.js (Global utilities and countdown logic)
-synergy.js (Client-side article database and renderer)
-(other HTML files: about, core, events, hackathon, notes, etc.)
-backend/
-server.js (Main API & Socket.io server)
-db.js (PostgreSQL connection pool setup)
-logic.js (Deterministic quiz question engine)
-schema.sql (Database table structures)
-package.json (Backend dependencies)
+index.html (Landing page)\
+synergy.html (Synergy Weekly article hub)\
+styles.css (Global stylesheet)\
+script.js (Global utilities and countdown logic)\
+synergy.js (Client-side article database and renderer)\
+(other HTML files: about, core, events, hackathon, notes, etc.)\
+backend/\
+server.js (Main API & Socket.io server)\
+db.js (PostgreSQL connection pool setup)\
+logic.js (Deterministic quiz question engine)\
+schema.sql (Database table structures)\
+package.json (Backend dependencies)\
 
 Getting Started (Local Development)
 
 To run this project locally, you need to set up both the Database/Backend and the Frontend.
 
-Prerequisites
-Node.js installed on your machine.
-PostgreSQL installed locally, OR a free cloud database account like Supabase.
+Prerequisites\
+Node.js installed on your machine.\
+PostgreSQL installed locally, OR a free cloud database account like Supabase.\
 
 1. Database Setup
 Create a new PostgreSQL database (e.g., protocol_db).
