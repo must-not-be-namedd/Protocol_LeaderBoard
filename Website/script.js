@@ -20,8 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Only run countdown logic if the element exists
   if (countdownEl) {
-    // Set event 7 days from now (modify here if needed)
-    const eventDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+    const eventDateString = countdownEl.dataset.event;
+    if (!eventDateString)
+      console.log("Countdown element is missing data-event")
+
+    // Set event date as per data-event or default to current time as fallback
+    const eventDate = new Date(eventDateString || Date.now());
 
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
