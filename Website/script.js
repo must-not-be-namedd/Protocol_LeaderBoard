@@ -80,12 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // SEMESTER TOGGLE
   // ================================
 
-  document.querySelectorAll(".semester-toggle").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const card = btn.parentElement;
-      // The 'open' class dynamically toggles visibility via styles.css
-      // .semester-card.open .subjects-grid { display: grid !important; }
-      card.classList.toggle("open");
+
+  document.querySelectorAll(".semester-card").forEach(card => {
+    card.addEventListener("click", () => {
+        // Optional: close other open cards
+        document.querySelectorAll(".semester-card.open").forEach(otherCard => {
+            if (otherCard !== card) {
+                otherCard.classList.remove("open");
+            }
+        });
+
+        // Toggle the clicked card
+        card.classList.toggle("open");
     });
   });
 

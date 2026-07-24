@@ -15,13 +15,7 @@
    ================================================================ */
 
 const upcomingEvents = [
-  {
-    title: "INSYNC 2026",
-    image: "./data/events/insync.jpeg",
-    date: "Tuesday, 28th April, 2026 | 1:00 PM – 2:00 PM",
-    description: "📍 Audi 1 | Are you a 1st Year CSE Core Student looking to be a part of the Official Club of Department of Computer Science & Engineering? PROTOCOL is now recruiting for our core teams. Join us for our Orientation Event — INSYNC 2026 and this is your chance to find out what we do, meet the team, and learn how you can be a part of it. Interested in tech, events, content, design, management, or building cool things with a great team? This is for you. See you there 👀",
-    register: "https://forms.gle/sNGCG8uhj136iMUXA"
-  }
+  
 ];
 
 /* ================================================================
@@ -30,46 +24,58 @@ const upcomingEvents = [
 
 const pastEvents = [
   {
+    title: "INSYNC 2026",
+    image: "./data/events/insync.jpeg",
+    date: "Tuesday, 28th April, 2026 | 1:00 PM – 2:00 PM",
+    description: "Are you a 1st Year CSE Core Student looking to be a part of the Official Club of Department of Computer Science & Engineering? PROTOCOL is now recruiting for our core teams. Join us for our Orientation Event — INSYNC 2026 and this is your chance to find out what we do, meet the team, and learn how you can be a part of it. Interested in tech, events, content, design, management, or building cool things with a great team? This is for you. See you there 👀",
+    //register: "https://forms.gle/sNGCG8uhj136iMUXA"
+  },
+
+  {
     title: "Among Us - IRL",
     image: "./data/events/among.jpeg",
     date: "18th-19th April, 2026",
     description: "Trust is a luxury in this real-life simulation of Among Us, where survival hinges on your ability to read the room. Navigate the chaos as the Imposter to sabotage and eliminate, the Medic to revive teammates and shift the balance, or the Jester to master the art of suspicion and win by getting voted out. The countdown has begun—watch your back, because the truth is harder to find than you think.",
-    register: "https://protocol-utsav.lovable.app/"
+    //register: "https://protocol-utsav.lovable.app/"
   },
+
   {
     title: "TriCipher",
     image: "./data/events/tri.jpeg",
     date: "17th April, 2026",
     description: "Decode. Strategize. Dominate. TriCipher is not your usual tech event — it’s a high-energy mix of speed, strategy, and smart thinking. From acting out clues in seconds to unlocking hidden advantages and cracking a final tech puzzle, every round keeps you on your toes. Team up, think fast, outplay the competition, and race your way to victory! 🚀",
-    register: "https://protocol-utsav.lovable.app/"
+    //register: "https://protocol-utsav.lovable.app/"
   },
+
   {
     title: "The Mega Hackathon",
     image: "./data/events/megaa.jpeg",
     date: "13th-14th March, 2026",
     description: "Protocol and Team Codelocked bring you our flagship hackathon, the highlight of Protocol Week 2026.If you enjoy building, brainstorming, and solving real-world problems, this is your chance to work with your team and turn your ideas into solutions.",
-    register: " https://forms.gle/sHMp48vxGjPpDTWc8"
+    //register: " https://forms.gle/sHMp48vxGjPpDTWc8"
   },
+
   {
     title: "CodeBlitz",
     image: "./data/events/cb.jpeg",
     date: "12th March, 2026",
     description: "As part of Protocol Week 2026, we’re bringing back one of our fastest and most exciting challenges.Ready to test both your coding skills and your logical thinking? CodeBlitz is a fast-paced Codeathon + Aptitude Hybrid Challenge where teamwork and coordination matter just as much as skill.",
-    register: "https://forms.gle/ASQqw6rMLnxLbUQ8A"
+    //register: "https://forms.gle/ASQqw6rMLnxLbUQ8A"
   },
+
   {
     title: "Brain Blitz",
     image: "./data/events/brain.jpeg",
     date: "13th March, 2026",
     description: "Pentagram in collaboration with Protocol on the account of Protocol Week 2026 presents:Brain Blitz - Where minds race against time 🚀Participate in the Magic Sum Puzzle, strategize in the Bidding War, and race to the top in the Ladder Game to prove your mastery!",
-    register: "https://forms.gle/HrPFLyLM3VYV4x796"
+   //register: "https://forms.gle/HrPFLyLM3VYV4x796"
   },
+
   {
     title: "Beginner Hackathon",
     image: "./data/events/hack.jpeg",
     date: "5th March, 2026",
     description: "A beginner-friendly hackathon designed to introduce students to problem solving, teamwork, and building real projects.",
-
   },
 
   /* 1) Project Blackscreen — 14 Nov 2025 */

@@ -2598,14 +2598,17 @@ nav {
 .notes-sem-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  align-self: start;
   gap: 28px;
   margin-bottom: 60px;
 }
 
 /* Semester card */
 .semester-card {
+  cursor: pointer;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
+  align-self: start;
   padding: 20px;
   border: 2px solid transparent;
   transition: 0.25s ease;
@@ -2618,6 +2621,7 @@ nav {
 
 /* Toggle button */
 .semester-toggle {
+  pointer-events: none;
   width: 100%;
   background: transparent;
   border: none;
@@ -2641,6 +2645,7 @@ nav {
 
 /* Subjects grid */
 .subjects-grid {
+  pointer-events: auto;
   display: none;
   margin-top: 20px;
   grid-template-columns: repeat(4, 1fr);

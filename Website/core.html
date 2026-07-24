@@ -18,7 +18,7 @@
 
   <!-- Main Styles -->
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" href="./data/Protocol(Round-Logo).png">
+  <link rel="icon" type="image/jpeg" href="./data/Protocol(Round-Logo).png">
   <link
     href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Delicious+Handrawn&display=swap"
     rel="stylesheet">
@@ -32,7 +32,7 @@
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand" href="./index.html">
-          <img src="./data/logo.png" alt="Protocol Logo" class="nav-logo">
+          <img src="./data/logo.png" alt="Protocol Logo" class="nav-logo" style="margin-top: 15%;">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -45,9 +45,6 @@
             <li class="nav-item"><a class="nav-link" href="./about.html">About</a></li>
             <li class="nav-item"><a class="nav-link" href="./core.html">Core</a></li>
             <li class="nav-item"><a class="nav-link" href="./events.html">Events</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="./hackathon.html" style="color: var(--muted-pink); font-weight: 700;">Hackathon</a>
-            </li>
             <li class="nav-item"><a class="nav-link" href="./synergy.html">Synergy Weekly</a></li>
             <li class="nav-item"><a class="nav-link" href="./notes.html">Notes</a></li>
             <li class="nav-item"><a class="nav-link" href="./daily-challenge.html">Daily Challenge</a></li>
@@ -93,9 +90,13 @@
               <h3 class="section-heading mt-5">Junior Core</h3>
               <div id="junior-grid" class="core-grid core-4col"></div>
 
+              <!-- Core 2025-26 -->
+              <h3 class="section-heading mt-5">Former Core: 2025-26</h3>
+              <div id="previous-core-grid-25" class="core-grid core-5col"></div>
+
               <!-- Core 2024-25 -->
               <h3 class="section-heading mt-5">Former Core: 2024-25</h3>
-              <div id="previous-core-grid" class="core-grid core-5col"></div>
+              <div id="previous-core-grid-24" class="core-grid core-5col"></div>
 
             </div>
           </div>
@@ -128,7 +129,7 @@
 
         <div class="col-md-5 mb-4">
           <h5 class="footer-heading condensed">Contact Us</h5>
-          <p class="footer-contact">+91 8217617133<br />protocol.cse@bmsce.ac.in</p>
+          <p class="footer-contact">+91 94821 04387<br />protocol.cse@bmsce.ac.in</p>
           <p class="footer-address">
             B M S College of Engineering<br>
             Bull Temple Road, Basavanagudi<br>
@@ -172,64 +173,106 @@
 
     /* Core */
     const coreMembers = [
-      { name: "Aaryan Prakash", role: "President", photo: "./data/team/AaryanPrakash.png" },
-      { name: "Bhavya J Makadia", role: "Vice President", photo: "./data/team/bhavya.png" },
-      { name: "Aisha Ali Nyaz", role: "Secretary", photo: "./data/team/aisha.jpg" },
-      { name: "Khushi Nataraj", role: "Technical Head", photo: "./data/team/khushi.jpg" },
-      { name: "Bhoomi Suresh Kota", role: "Design Head", photo: "./data/team/bhoomi.jpg" }
+      { name: "Deeptanshu Sarangi", role: "President", photo: "./data/team/deeptanshuS.jpeg" },
+      { name: "Varsha Kodi", role: "Vice President", photo: "./data/team/varshaKK.jpeg" },
+      { name: "Abhigyan Shekhar", role: "Secretary", photo: "./data/team/abhigyanS.jpeg" },
+      { name: "Adarsh KP", role: "Technical Head", photo: "./data/team/adarshKP.jpeg" },
+      { name: "H Shaistha", role: "Design Head", photo: "./data/team/hShaistha.jpeg" }
     ];
 
-    /* Senior (12) */
+    /* Senior (32) */
     const seniorTeam = [
-      { name: "Suhan S", role: "Marketing & Multimedia", photo: "./data/team/suhan.jpg" },
-      { name: "Punarnava Viswanath", role: "Marketing & Multimedia", photo: "./data/team/punarnava.jpg" },
-      { name: "Kavana MA", role: "Pixel", photo: "./data/team/kavana.jpg" },
-      { name: "Shailesh MS", role: "Tech", photo: "./data/team/shailesh.jpg" },
-      { name: "Bhuvan A", role: "Tech", photo: "./data/team/bhuvan.jpg" },
-      { name: "Manojkumar Eshwar", role: "Tech", photo: "./data/team/manoj.jpg" },
-      { name: "Sanath S Shetty", role: "Tech", photo: "./data/team/sanath.jpg" },
-      { name: "Sam Manu Jacob", role: "Tech & Content", photo: "./data/team/sam.jpg" },
-      { name: "Aaron B Ajay", role: "Content", photo: "./data/team/aaron.jpg" },
-      { name: "Afeefah", role: "Content", photo: "./data/team/afeefah.jpg" },
-      { name: "Revathi R", role: "Content", photo: "./data/team/revathi.jpg" },
-      { name: "Jayanth Vikram", role: "Sponsorship", photo: "./data/team/jayanth.JPG" }
+      { name: "Vasudeva Rakshak", role: "Marketing", photo: "./data/team/vasudevaR.jpeg" },
+      { name: "Adithya Jayakumar", role: "Marketing", photo: "./data/team/adithyaJ.jpeg" },
+      { name: "Vachana MH", role: "Marketing", photo: "./data/team/vachanaMH.jpeg" },
+      { name: "Shivayogi", role: "Marketing", photo: "./data/team/shivayogi.jpeg" },
+      { name: "Aadi Vaishnav", role: "Marketing", photo: "./data/team/aadiV.jpeg" },
+      { name: "Nandini Aggarwal", role: "Multimedia", photo: "./data/team/nandiniA.jpeg" },
+      { name: "Sharan S", role: "Multimedia", photo: "./data/team/sharanS.jpeg" },
+      { name: "Deepanshu Lahiri", role: "Multimedia", photo: "./data/team/deepanshuL.jpeg" },
+      { name: "Kiruthika Ramesh ", role: "Multimedia", photo: "./data/team/kiruthikaR.jpeg" },
+      { name: "Madhireddy Sathvik Reddy", role: "Multimedia", photo: "./data/team/madhireddySR.jpeg" },
+      { name: "Navya Agrawal", role: "Event Manager", photo: "./data/team/navyaA.jpeg" },
+      { name: "Kshama Bhat", role: "Event Manager", photo: "./data/team/kshamaB.jpeg" },
+      { name: "Manasvi Singh", role: "Event Manager", photo: "./data/team/manasviS.jpeg" },
+      { name: "Naysha Shrivastava", role: "Event Manager", photo: "./data/team/nayshaS.jpeg" },
+      { name: "Divyansh Duggad", role: "Sponsorship", photo: "./data/team/divyanshD.jpeg" },
+      { name: "Krisha Tharunya", role: "Sponsorship", photo: "./data/team/krishaT.jpeg" },
+      { name: "Pratham Praveen Prabhu", role: "Sponsorship", photo: "./data/team/prathamPP.jpeg" },
+      { name: "Adarsh A Ladwa", role: "Tech", photo: "./data/team/adarshAL.jpeg" },
+      { name: "Vishnu Mashalkar", role: "Tech", photo: "./data/team/vishnuM.jpeg" },
+      { name: "Parv D Parekh", role: "Tech", photo: "./data/team/parvDP.jpeg" },
+      { name: "Arnav Kumar", role: "Tech", photo: "./data/team/arnavK.jpeg" },
+      { name: "Shreya Ravish", role: "Tech", photo: "./data/team/shreyaR.jpeg" },
+      { name: "Sharvani G Bhaskar", role: "Pixel", photo: "./data/team/sharvaniGB.jpeg" },
+      { name: "Bhautik Dhanpal Shetty", role: "Pixel", photo: "./data/team/bhautikS.jpeg" },
+      { name: "Harsha A", role: "Pixel", photo: "./data/team/harshaA.jpeg" },
+      { name: "Goutham Sankar", role: "Pixel", photo: "./data/team/gouthamS.jpeg" },
+      { name: "Gomathy Ramakrishnan", role: "Pixel", photo: "./data/team/gomathyR.jpeg" },
+      { name: "Achinthya Marpalli", role: "Content", photo: "./data/team/achinthyaM.jpeg" },
+      { name: "Vatsal Garg", role: "Content", photo: "./data/team/vatsalG.jpeg" },
+      { name: "Mahima Koul", role: "Content", photo: "./data/team/mahimaK.jpeg" },
+      { name: "Aditi Ravindra Kulkarni", role: "Content", photo: "./data/team/aditiRK.jpeg" },
+      { name: "Rishitha AK", role: "Content", photo: "./data/team/rishithaAK.jpeg" },
+      { name: "Harshita Bharadwaj", role: "Content", photo: "./data/team/harshitaB.jpeg" },
     ];
 
     /* Junior (21) */
     const juniorCore = [
-      { name: "Shravani Vedagiri", role: "Marketing", photo: "./data/team/shravani.png" },
-      { name: "Deeptanshu Sarangi", role: "Marketing", photo: "./data/team/deeptanshu.jpg" },
-      { name: "Nandan B", role: "Marketing", photo: "./data/team/nandan.jpg" },
-      { name: "Ayush S Shetty", role: "Marketing", photo: "./data/team/ayush.jpg" },
-      { name: "Akshara Kavi Mahesh", role: "Marketing", photo: "./data/team/akshara.jpg" },
+      { name: "Ishan Raj", role: "Marketing", photo: "./data/team/ishanR.jpeg" },
+      { name: "Harshit Sharma", role: "Marketing", photo: "./data/team/harshitS.jpeg" },
+      { name: "Adithi Naikwadi", role: "Marketing", photo: "./data/team/adithiN.jpeg" },
+      { name: "Ravi Kishore Reddy P", role: "Marketing", photo: "./data/team/raviKRP.jpeg" },
+      { name: "Adithi P Jain", role: "Marketing", photo: "./data/team/adithiPJ.jpeg" },
+      { name: "Shaurav", role: "Marketing", photo: "./data/team/shaurav.jpeg" },
 
-      { name: "Aadi Vaishnav", role: "Multimedia", photo: "./data/team/aadi.jpg" },
-      { name: "Aditi Ravindra Kulkarni", role: "Multimedia", photo: "./data/team/aditi.jpg" },
+      { name: "Bhakti Chethan", role: "Multimedia", photo: "./data/team/bhaktiC.jpeg" },
+      { name: "Rushil T", role: "Multimedia", photo: "./data/team/rushilT.jpeg" },
+      { name: "Akriti Kumari", role: "Multimedia", photo: "./data/team/akritiK.jpeg" },
+      { name: "Mishthy Agrawal", role: "Multimedia", photo: "./data/team/mishthyA.jpeg" },
+      { name: "Gaargi L", role: "Multimedia", photo: "./data/team/gaargiL.jpeg" },
+      { name: "Disha Gupta", role: "Multimedia", photo: "./data/team/dishaG.jpeg" },
+      { name: "Vaishnavi Bhushetti", role: "Multimedia", photo: "./data/team/vaishnaviB.jpeg" },
 
-      { name: "Goutham Sankar", role: "Pixel", photo: "./data/team/goutham.jpg" },
-      { name: "Harsha A", role: "Pixel", photo: "./data/team/harsha.jpg" },
-      { name: "Shaistha H", role: "Pixel", photo: "./data/team/shaistha.jpg" },
-      { name: "Sharvani G Bhaskar", role: "Pixel", photo: "./data/team/sharvani.jpg" },
-      { name: "Chinmaya V Rao", role: "Pixel", photo: "./data/team/chinmaya.jpg" },
 
-      { name: "Adarsh KP", role: "Tech", photo: "./data/team/adarsh.jpeg" },
-      { name: "Parv D Parekh", role: "Tech", photo: "./data/team/parv.jpg" },
-      { name: "Shreya Ravish", role: "Tech", photo: "./data/team/shreya.jpg" },
-      { name: "Varsha Kodi", role: "Tech", photo: "./data/team/varsha.jpg" },
+      { name: "Anish Ajoy Sharma", role: "Pixel", photo: "./data/team/anishAS.jpeg" },
+      { name: "U Kruthik", role: "Pixel", photo: "./data/team/uKruthik.jpeg" },
+      { name: "Riya Vishwesh Moroney", role: "Pixel", photo: "./data/team/riyaVM.jpeg" },
+      { name: "Ritvika Gupta", role: "Pixel", photo: "./data/team/ritvikaG.jpeg" },
+      { name: "S S Thanisha Shree", role: "Pixel", photo: "./data/team/sSThanishaS.jpeg" },
 
-      { name: "Abhigyan Shekhar", role: "Content", photo: "./data/team/abhigyan.JPG" },
-      { name: "Achinthya Marpalli", role: "Content", photo: "./data/team/achinthya.jpg" },
-      { name: "Mahima Koul", role: "Content", photo: "./data/team/mahima.png" },
-      { name: "Rishitha AK", role: "Content", photo: "./data/team/rishitha.jpg" }
+      { name: "Kavyadeep Dev", role: "Tech", photo: "./data/team/kavyadeepD.jpeg" },
+      { name: "Kumkum Amarnath Jawalkar", role: "Tech", photo: "./data/team/kumkumAJ.jpeg" },
+      { name: "Nelaturu Akshith", role: "Tech", photo: "./data/team/nAkshith.jpeg" },
+      { name: "Avish Jain", role: "Tech", photo: "./data/team/avishJ.jpeg" },
+      { name: "Tanya Pandey", role: "Tech", photo: "./data/team/tanyaP.jpeg" },
+      { name: "Anubhav Kumar", role: "Tech", photo: "./data/team/anubhavK.jpeg" },
+
+      { name: "Nikita R Kadaba", role: "Content", photo: "./data/team/nikitaRK.jpeg" },
+      { name: "Ria Arun Kachappilly", role: "Content", photo: "./data/team/riaAK.jpeg" },
+      { name: "Laasya Gulur Deepak", role: "Content", photo: "./data/team/laasyaD.jpeg" },
+      { name: "Harshit Wahi", role: "Content", photo: "./data/team/harshitW.jpeg" },
+      { name: "C Sharanya", role: "Content", photo: "./data/team/cSharanya.jpeg" },
+      { name: "Anika Nandish", role: "Content", photo: "./data/team/anikaN.jpeg" },
+      { name: "Aastha Pasrija", role: "Content", photo: "./data/team/aasthaP.jpeg" },
     ];
 
-    /* Previous Core */
-    const previousCore = [
-      { name: "Charvi Adikar", role: "President", photo: "./data/team/charvi.png" },
-      { name: "Adithya Pillai", role: "Vice President", photo: "./data/team/adithya.png" },
-      { name: "Aditi C", role: "Secretary", photo: "./data/team/aditic.png" },
-      { name: "Avyukth Inna", role: "Technical Head", photo: "./data/team/avyukth.png" },
-      { name: "Tarun M M", role: "Chief Editor of Synergy", photo: "./data/team/tarun.png" }
+    /* Previous Core 2025-26 */
+    const previousCore25 = [
+      { name: "Aaryan Prakash", role: "President", photo: "./data/team/aaryanP.jpeg" },
+      { name: "Bhavya J Makadia", role: "Vice President", photo: "./data/team/bhavyaJM.jpeg" },
+      { name: "Aisha Ali Nyaz", role: "Secretary", photo: "./data/team/aishaAN.jpeg" },
+      { name: "Khushi Nataraj", role: "Technical Head", photo: "./data/team/khushiN.jpeg" },
+      { name: "Bhoomi Suresh Kota", role: "Design Head", photo: "./data/team/bhoomiSK.jpeg" }
+    ];
+
+    /* Previous Core 2024-25 */
+    const previousCore24 = [
+      { name: "Charvi Adikar", role: "President", photo: "./data/team/charviA.jpeg" },
+      { name: "Adithya Pillai", role: "Vice President", photo: "./data/team/adithyaP.jpeg" },
+      { name: "Aditi C", role: "Secretary", photo: "./data/team/aditiC.jpeg" },
+      { name: "Avyukth Inna", role: "Technical Head", photo: "./data/team/avyukthI.jpeg" },
+      { name: "Tarun M M", role: "Chief Editor of Synergy", photo: "./data/team/tarunMM.jpeg" }
     ];
 
 
@@ -244,6 +287,7 @@
       const img = document.createElement('img');
       img.className = 'member-photo';
       img.src = photo;
+      img.alt = "Unavailable at the moment"
 
       const nameDiv = document.createElement('div');
       nameDiv.className = 'member-name condensed';
@@ -278,7 +322,8 @@
       fillGrid("core-grid", coreMembers);
       fillGrid("senior-grid", seniorTeam);
       fillGrid("junior-grid", juniorCore);
-      fillGrid("previous-core-grid", previousCore);
+      fillGrid("previous-core-grid-25", previousCore25)
+      fillGrid("previous-core-grid-24", previousCore24);
     });
 
   </script>
