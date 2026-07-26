@@ -15,7 +15,13 @@
    ================================================================ */
 
 const upcomingEvents = [
-  
+  {
+    title: "Synaptrix",
+    image: "./data/events/synaptrix.jpeg",
+    date: "Friday, 31st July, 2026 | 10:00 AM – 6:00 PM",
+    description: "BMSCE IEEE Computer Society, in collaboration with Protocol, presents Synaptrix, an 8-hour Online Hackathon, designed to foster innovation and encourage the development of technology-driven solutions to real-world challenges. Step into an intensive environment focused on innovation, problem-solving, and purposeful AI integration. Explore technologies such as LLM APIs, Computer Vision, Machine Learning models, and transform innovative ideas into functional prototypes with an emphasis on real-world impact, technical excellence, and effective implementation.",
+    register: "https://forms.gle/Nwm4kcqrsWSxrMxa9"
+  }
 ];
 
 /* ================================================================
