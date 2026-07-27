@@ -16,12 +16,19 @@
 
 const upcomingEvents = [
   {
+    title: "Design Odyssey",
+    image: "./data/events/designOdyssey.jpeg",
+    date: "Wednesday, 29th July, 2026 | 5:00 PM – 8:30 PM",
+    description: "🎨 Greetings from PROTOCOL!  As part of TROIKA, BMSCE IEEE Computer Society, in collaboration with Protocol, presents Design Odyssey – an exciting Online Poster Design Challenge that puts your creativity, imagination, and design skills to the ultimate test!  Create a visually stunning poster by combining a common theme with a unique set of randomly assigned elements. Transform unrelated ideas into one cohesive masterpiece and showcase your visual storytelling abilities.  💻 Mode: Online  🆓 Registration Fee: FREE 🎁 Prizes: Exciting Goodies for the Winners!  Whether you're a beginner or an experienced designer, Design Odyssey is your chance to think outside the box, innovate, and let your creativity shine!",
+    register: "https://forms.gle/vkpprFxpZ9Mvxt8i6"
+  },
+  {
     title: "Synaptrix",
     image: "./data/events/synaptrix.jpeg",
     date: "Friday, 31st July, 2026 | 10:00 AM – 6:00 PM",
     description: "BMSCE IEEE Computer Society, in collaboration with Protocol, presents Synaptrix, an 8-hour Online Hackathon, designed to foster innovation and encourage the development of technology-driven solutions to real-world challenges. Step into an intensive environment focused on innovation, problem-solving, and purposeful AI integration. Explore technologies such as LLM APIs, Computer Vision, Machine Learning models, and transform innovative ideas into functional prototypes with an emphasis on real-world impact, technical excellence, and effective implementation.",
     register: "https://forms.gle/Nwm4kcqrsWSxrMxa9"
-  }
+  } 
 ];
 
 /* ================================================================
