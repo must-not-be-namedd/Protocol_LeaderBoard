@@ -23,6 +23,13 @@ const upcomingEvents = [
     register: "https://forms.gle/vkpprFxpZ9Mvxt8i6"
   },
   {
+    title: "Code Escape",
+    image: "./data/events/codeEscape.jpeg",
+    date: "Thursday, 30th July, 2026 | 5:00 PM – 7:00 PM",
+    description: "Greetings from BMSCE IEEE Computer Society and PROTOCOL! BMSCE IEEE Computer Society, in collaboration with Protocol, proudly presents Code Escape! An immersive online cybersecurity inspired challenge where participants decode encrypted clues, solve programming and logic puzzles, uncover hidden digital evidence and race against time to restore a compromised system.",
+    register: "https://forms.gle/ZPXzNHjmLsqdoFwf7"
+  }, 
+  {
     title: "Synaptrix",
     image: "./data/events/synaptrix.jpeg",
     date: "Friday, 31st July, 2026 | 10:00 AM – 6:00 PM",
