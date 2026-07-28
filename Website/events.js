@@ -43,6 +43,22 @@ const upcomingEvents = [
    ================================================================ */
 
 const pastEvents = [
+   {
+    title: "Gateway to GATE",
+    image: "./data/events/gatewayToGATE.jpeg",
+    date: "21st June, 2026 | 4:00 PM – 5:00 PM",
+    description: "🚀 CRACK GATE & NAVIGATE YOUR CAREER  💙 Greetings from Protocol Club, Department of Computer Science and Engineering, BMSCE, in collaboration with GeeksforGeeks India!  Confused about what comes next after engineering? Whether you're planning for GATE, higher studies, or a career in tech, we've got you covered!  Join us for an insightful session designed to help you make informed decisions about your future. 🎯  🎙️ Speaker: Mr. Chandan Jha Associate Vice President, GeeksforGeeks. ✨ Learn about: * GATE Preparation Strategy * Higher Studies Opportunities * Career Guidance & Industry Insights",
+    //register: "https://forms.gle/MtfJyBf5LZsSgL9d6"
+   },
+ 
+   {
+    title: "Cloud Management Mechanisms",
+    image: "./data/events/cloudManagementMechanisms.jpeg",
+    date: "4th and 5th June, 2026 | 1:30 PM – 4:30 PM",
+    description: "🚀 PROTOCOL –  CSE Department Club presents  ☁️ CLOUD MANAGEMENT MECHANISMS Two days hands-on workshop designed to help you explore practical cloud concepts, coding exercises, and real-world case studies!  📌 What you’ll gain: ✨ Practical cloud computing skills ✨ Two days hands-on coding experience ✨ Industry-oriented case studies ✨ Interactive learning session with speaker Mr. Ravi Sajjanar",
+    //register: "https://forms.gle/pXfna6oykDvprQdw9"
+  },
+
   {
     title: "INSYNC 2026",
     image: "./data/events/insync.jpeg",
